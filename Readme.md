@@ -1,7 +1,7 @@
 # Личный проект «Угадай мелодию» [![Build status][travis-image]][travis-url]
 
 * Студент: [Дмитрий Руднев](https://up.htmlacademy.ru/ecmascript/3/user/121730).
-* Наставник: `Неизвестно`.
+* Наставник: `Сергей Карасёв`.
 
 ---
 
