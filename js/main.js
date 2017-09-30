@@ -12,7 +12,7 @@ class MusicApplication {
     this.mainWrapper = document.querySelector(`.main`);
     this.screenTemplateExample = screenTemplates;
     this.screenTemplateList = [];
-    this.screenTemplateLenght = null;
+    this.screenTemplateLength = null;
     this.currentScreen = 0;
   }
 
@@ -20,7 +20,7 @@ class MusicApplication {
     for (let i = 0; i < this.screenTemplateExample.children.length; i++) {
       this.screenTemplateList.push(this.screenTemplateExample.children[i].cloneNode(true));
     }
-    this.screenTemplateLenght = this.screenTemplateList.length;
+    this.screenTemplateLength = this.screenTemplateList.length;
   }
 
   renderTemplate() {
@@ -50,7 +50,7 @@ class MusicApplication {
    */
   updateCurrentScreen(count) {
     this.mainWrapper.removeChild(this.screenTemplateList[this.currentScreen]);
-    this.currentScreen = (count + this.screenTemplateLenght) % this.screenTemplateLenght;
+    this.currentScreen = (count + this.screenTemplateLength) % this.screenTemplateLength;
     this.mainWrapper.appendChild(this.screenTemplateList[this.currentScreen]);
   }
 }
