@@ -1,78 +1,43 @@
 'user strict';
 
-const template = document.getElementById(`templates`);
-const templateContainer = `content` in template ? template.content : template;
+import RenderTemplate from './render.js';
+import MainLevelArtist from './main-level-artist.js';
 
-/**
- * [screenTemplates documentFragment]
- * @type {[object]}
- */
-class MusicApplication {
-  constructor(screenTemplates) {
-    this.mainWrapper = document.querySelector(`.main`);
-    this.screenTemplateExample = screenTemplates;
-    this.screenTemplateList = [];
-    this.screenTemplateLength = null;
-    this.currentScreen = 0;
+class MainWelcomeView {
+  constructor() {
+    this.screenTemplate = (`
+      <!-- Приветствие -->
+      <section class="logo" title="Угадай мелодию"><h1>Угадай мелодию</h1></section>
+      <button class="main-play">Начать игру</button>
+      <h2 class="title main-title">Правила игры</h2>
+      <p class="text main-text">
+        Правила просты&nbsp;— за&nbsp;5 минут ответить на все вопросы.<br>
+        Ошибиться можно 3 раза.<br>
+        Удачи!
+      </p>
+    `);
+    this.createdTemplate = document.createElement(`section`);
+    this.actionButton = null;
   }
 
-  createScreenTemplates() {
-    for (let i = 0; i < this.screenTemplateExample.children.length; i++) {
-      this.screenTemplateList.push(this.screenTemplateExample.children[i].cloneNode(true));
-    }
-    this.screenTemplateLength = this.screenTemplateList.length;
+  generateTemplate() {
+    this.createdTemplate.insertAdjacentHTML(`afterbegin`, this.screenTemplate);
+    this.createdTemplate.setAttribute(`class`, `main main--welcome`);
+    this.actionButton = this.createdTemplate.querySelector(`.main-play`);
   }
 
-  renderTemplate() {
-    this.createScreenTemplates();
-    this.mainWrapper.appendChild(this.screenTemplateList[this.currentScreen]);
-  }
-
-  /**
-   * [setNextScreen Переключает экран на count вперед]
-   * @param {[number]} count [Целое число]
-   */
-  setNextScreen(count) {
-    this.updateCurrentScreen(this.currentScreen + count);
-  }
-
-  /**
-   * [setPreviousScreen Переключает экран на count назад]
-   * @param {[number]} count [Целое число]
-   */
-  setPreviousScreen(count) {
-    this.updateCurrentScreen(this.currentScreen - count);
-  }
-
-  /**
-   * [updateCurrentScreen Находит текущий экран при заничении count]
-   * @param  {[number]} count [Целое число]
-   */
-  updateCurrentScreen(count) {
-    this.mainWrapper.removeChild(this.screenTemplateList[this.currentScreen]);
-    this.currentScreen = (count + this.screenTemplateLength) % this.screenTemplateLength;
-    this.mainWrapper.appendChild(this.screenTemplateList[this.currentScreen]);
+  getTemplate() {
+    return this.createdTemplate;
   }
 }
 
-const initMusicApplication = new MusicApplication(templateContainer);
+const initMainWelcomeView = new MainWelcomeView();
 
-const RIGHT_ARROW_KEY_CODE = 39;
-const LEFT_ARROW_KEY_CODE = 37;
+initMainWelcomeView.generateTemplate();
 
-document.addEventListener(`DOMContentLoaded`, function () {
-  initMusicApplication.renderTemplate();
+initMainWelcomeView.actionButton.addEventListener(`click`, (event) => {
+  event.preventDefault();
+  RenderTemplate.renderTemplate(MainLevelArtist.getTemplate());
 });
 
-document.addEventListener(`keydown`, function (event) {
-  switch (true) {
-    case event.altKey && event.keyCode === RIGHT_ARROW_KEY_CODE:
-      event.preventDefault();
-      initMusicApplication.setNextScreen(1);
-      break;
-    case event.altKey && event.keyCode === LEFT_ARROW_KEY_CODE:
-      event.preventDefault();
-      initMusicApplication.setPreviousScreen(1);
-      break;
-  }
-});
+export default initMainWelcomeView;
