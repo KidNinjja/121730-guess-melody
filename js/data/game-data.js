@@ -64,8 +64,8 @@ export class GameTimer {
   tick() {
     this.minutes = parseInt(this._state / 60, 10);
     this.seconds = parseInt(this._state % 60, 10);
-    this.minutes = this.minutes < 10 ? this.minutes : this.minutes;
-    this.seconds = this.seconds < 10 ? this.seconds : this.seconds;
+    this.minutes = this.minutes < 10 ? `0` + this.minutes : this.minutes;
+    this.seconds = this.seconds < 10 ? `0` + this.seconds : this.seconds;
   }
 
   stopTimer() {
