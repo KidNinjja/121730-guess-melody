@@ -2,6 +2,7 @@ import assert from 'assert';
 import {calculateUserScore} from './game-data.js';
 import {decisionPlayerResult} from './game-data.js';
 import {GameTimer} from './game-data.js';
+import {convertNumberToString} from './game-data.js';
 import calculateUserGameResult from './game-data.js';
 
 const testUserData = [
@@ -213,5 +214,43 @@ describe(`GameTimer`, () => {
       done();
       assert.equal(`Время закончено`, newGameTime.state, `Время! ${newGameTime.state}`);
     }, 1000);
+  });
+});
+
+describe(`convertNumberToString`, () => {
+  const stringExampleMinutes = [
+    `минута`,
+    `минуты`,
+    `минут`
+  ];
+
+  it(`if 1 must return минута`, () => {
+    const result = convertNumberToString(1, stringExampleMinutes);
+    assert.equal(`минута`, result, `Результат ${result}`);
+  });
+
+  it(`if 2 must return минуты`, () => {
+    const result = convertNumberToString(2, stringExampleMinutes);
+    assert.equal(`минуты`, result, `Результат ${result}`);
+  });
+
+  it(`if 5 must return минут`, () => {
+    const result = convertNumberToString(5, stringExampleMinutes);
+    assert.equal(`минут`, result, `Результат ${result}`);
+  });
+
+  it(`if negative 1 must return минута`, () => {
+    const result = convertNumberToString(-1, stringExampleMinutes);
+    assert.equal(`минута`, result, `Результат ${result}`);
+  });
+
+  it(`if negative 2 must return минуты`, () => {
+    const result = convertNumberToString(-2, stringExampleMinutes);
+    assert.equal(`минуты`, result, `Результат ${result}`);
+  });
+
+  it(`if negative 5 must return минут`, () => {
+    const result = convertNumberToString(-5, stringExampleMinutes);
+    assert.equal(`минут`, result, `Результат ${result}`);
   });
 });

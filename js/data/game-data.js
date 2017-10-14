@@ -78,4 +78,11 @@ export class GameTimer {
   }
 }
 
+export const convertNumberToString = (numberCount, exampleWords) => {
+  const cases = [2, 0, 1, 1, 1, 2];
+  numberCount = Math.abs(numberCount);
+  return exampleWords[(numberCount % 100 > 4 && numberCount % 100 < 20) ? 2 :
+    cases[(numberCount % 10 < 5) ? numberCount % 10 : 5]];
+};
+
 export default calculateUserGameResult;
