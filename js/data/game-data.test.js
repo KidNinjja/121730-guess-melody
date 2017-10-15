@@ -1,7 +1,7 @@
 import assert from 'assert';
 import {calculateUserScore} from './game-data.js';
 import {decisionPlayerResult} from './game-data.js';
-import {GameTimer} from './game-data.js';
+import {gameTimer} from './game-data.js';
 import {convertNumberToString} from './game-data.js';
 import calculateUserGameResult from './game-data.js';
 
@@ -117,10 +117,6 @@ const userNotesCount = 1;
 
 const anotherGamersData = [4, 5, 8, 11];
 
-const BaseGameTime = {
-  baseTime: 1
-};
-
 describe(`calculateUserScore`, () => {
   it(`must return 3 if the player answered correctly and quickly`, () => {
     const result = calculateUserScore(testRightAndFast);
@@ -200,20 +196,14 @@ describe(`decisionPlayerResult`, () => {
   });
 });
 
-describe(`GameTimer`, () => {
-  const newGameTime = new GameTimer(BaseGameTime.baseTime);
-  newGameTime.startTimer();
-  it(`should return cont -1 without error`, (done) => {
-    setTimeout(() => {
-      done();
-      assert.equal(0, newGameTime.state, `Время! ${newGameTime.state}`);
-    }, 1000);
+describe(`gameTimer`, () => {
+  it(`should return cont -1 without error`, () => {
+    const newGameTime = gameTimer(5);
+    assert.equal(4, newGameTime.tick(), `Время! ${newGameTime.getTime().time}`);
   });
-  it(`should return string example when time is over`, (done) => {
-    setTimeout(() => {
-      done();
-      assert.equal(`Время закончено`, newGameTime.state, `Время! ${newGameTime.state}`);
-    }, 1000);
+  it(`should return string example when time is over`, () => {
+    const newGameTime = gameTimer(1);
+    assert.equal(`Время закончено`, newGameTime.tick(), `Время! ${newGameTime.getTime().time}`);
   });
 });
 

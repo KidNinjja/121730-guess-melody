@@ -39,44 +39,35 @@ export const decisionPlayerResult = (userData, playersResult) => {
   }
 };
 
-export class GameTimer {
-  constructor(time = 60 * 1) {
-    this.time = time;
-    this.minutes = parseInt(this.time / 60, 10);
-    this.seconds = parseInt(this.time % 60, 10);
-    this._state = this.time;
-    this.stopTimerId = null;
-  }
+export const gameTimer = (time = 1) => {
+  let localTime = time;
+  let minutes = parseInt(localTime / 60, 10);
+  let seconds = parseInt(localTime % 60, 10);
+  let state = localTime;
 
-  startTimer() {
-    this.stopTimerId = setInterval(this.updateState.bind(this), 1000);
-  }
+  return {
+    tick() {
+      if (state === 0) {
+        return 0;
+      }
 
-  updateState() {
-    this.tick();
-    --this._state;
+      --state;
+      minutes = parseInt(state / 60, 10);
+      seconds = parseInt(state % 60, 10);
+      minutes = minutes < 10 ? `0` + minutes : minutes;
+      seconds = seconds < 10 ? `0` + seconds : seconds;
 
-    if (this._state < 0) {
-      this.stopTimer();
+      return state > 0 ? state : `Время закончено`;
+    },
+    getTime() {
+      return {
+        minutes,
+        seconds,
+        time: state
+      };
     }
-  }
-
-  tick() {
-    this.minutes = parseInt(this._state / 60, 10);
-    this.seconds = parseInt(this._state % 60, 10);
-    this.minutes = this.minutes < 10 ? `0` + this.minutes : this.minutes;
-    this.seconds = this.seconds < 10 ? `0` + this.seconds : this.seconds;
-  }
-
-  stopTimer() {
-    clearInterval(this.stopTimerId);
-    this._state = `Время закончено`;
-  }
-
-  get state() {
-    return this._state;
-  }
-}
+  };
+};
 
 export const convertNumberToString = (numberCount, exampleWords) => {
   const cases = [2, 0, 1, 1, 1, 2];
