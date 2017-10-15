@@ -19,8 +19,10 @@ const calculateUserGameResult = (gameUserData, userNotes) => {
   if (gameUserData.length < 10) {
     return -1;
   }
-  return gameUserData.reduce(((sum, current) => sum +
-    calculateUserScore(current, userNotes).userScore), 0);
+  return gameUserData.reduce((sum, current) => {
+    sum += calculateUserScore(current, userNotes).userScore;
+    return sum;
+  }, 0);
 };
 
 export const decisionPlayerResult = (userData, playersResult) => {
