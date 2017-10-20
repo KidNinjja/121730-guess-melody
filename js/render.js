@@ -1,28 +1,12 @@
+const appContainer = document.querySelector(`.app`);
 
-import MainWelcomeView from './main.js';
+export const createElement = (template) => {
+  const outerTwo = document.createElement(`div`);
+  outerTwo.innerHTML = template;
+  return outerTwo.children[0];
+};
 
-class RenderTemplate {
-  constructor() {
-    this.mainWrapper = document.querySelector(`.app`);
-  }
-
-  removeTemplate() {
-    const removedElements = this.mainWrapper.querySelectorAll(`.main`);
-    for (let i = 0; i < removedElements.length; i++) {
-      this.mainWrapper.removeChild(removedElements[i]);
-    }
-  }
-
-  renderTemplate(screenTemplate) {
-    this.removeTemplate();
-    this.mainWrapper.appendChild(screenTemplate);
-  }
-}
-
-const initRenderTemplate = new RenderTemplate();
-
-export default initRenderTemplate;
-
-document.addEventListener(`DOMContentLoaded`, () => {
-  initRenderTemplate.renderTemplate(MainWelcomeView.getTemplate());
-});
+export const changeView = (view) => {
+  const outer = document.querySelector(`.main`);
+  appContainer.replaceChild(view.element, outer);
+};

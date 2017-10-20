@@ -1,4 +1,4 @@
-export const calculateUserScore = (userData, userNotes) => {
+export const calculateUserScore = (userData) => {
   let userScore = 0;
   if (userData.right === true) {
     userScore += 1;
@@ -7,12 +7,8 @@ export const calculateUserScore = (userData, userNotes) => {
     }
   } else {
     userScore -= 1;
-    userNotes = userNotes <= 0 ? 0 : userNotes - 1;
   }
-  return {
-    userScore,
-    userNotes
-  };
+  return userScore;
 };
 
 const calculateUserGameResult = (gameUserData, userNotes) => {

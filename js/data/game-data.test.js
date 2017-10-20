@@ -113,33 +113,27 @@ const testDontRightAndSlow = {
   time: 35
 };
 
-const userNotesCount = 1;
-
 const anotherGamersData = [4, 5, 8, 11];
 
 describe(`calculateUserScore`, () => {
   it(`must return 3 if the player answered correctly and quickly`, () => {
     const result = calculateUserScore(testRightAndFast);
-    assert.equal(3, result.userScore, `Количесво баллов ${result}`);
+    assert.equal(3, result, `Количесво баллов ${result}`);
   });
 
   it(`must return 1 if the player answered correctly but slowly`, () => {
     const result = calculateUserScore(testRightAndSlow);
-    assert.equal(1, result.userScore, `Количесво баллов ${result}`);
+    assert.equal(1, result, `Количесво баллов ${result}`);
   });
 
   it(`must return -1 if the player did not answer correctly and quickly`, () => {
     const result = calculateUserScore(testDontRightAndFast);
-    assert.equal(-1, result.userScore, `Количесво баллов ${result}`);
+    assert.equal(-1, result, `Количесво баллов ${result}`);
   });
 
   it(`must return -1 if the player did not answer correctly and slowly`, () => {
     const result = calculateUserScore(testDontRightAndSlow);
-    assert.equal(-1, result.userScore, `Количесво баллов ${result}`);
-  });
-  it(`if the player fails, he loses one life point. must return 0`, () => {
-    const result = calculateUserScore(testDontRightAndSlow, userNotesCount);
-    assert.equal(0, result.userNotes, `Количесво баллов ${result}`);
+    assert.equal(-1, result, `Количесво баллов ${result}`);
   });
 });
 
