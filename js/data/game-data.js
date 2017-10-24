@@ -11,15 +11,17 @@ export const calculateUserScore = (userData) => {
   return userScore;
 };
 
-const calculateUserGameResult = (gameUserData, userNotes) => {
+const calculateUserGameResult = (gameUserData) => {
   if (gameUserData.length < 10) {
     return -1;
   }
   return gameUserData.reduce((sum, current) => {
-    sum += calculateUserScore(current, userNotes).userScore;
+    sum += calculateUserScore(current);
     return sum;
   }, 0);
 };
+
+export default calculateUserGameResult;
 
 export const decisionPlayerResult = (userData, playersResult) => {
   if (userData.time <= 0) {
@@ -37,7 +39,7 @@ export const decisionPlayerResult = (userData, playersResult) => {
   }
 };
 
-export const gameTimer = (time = 1) => {
+export const gameTimer = (time = 300) => {
   let localTime = time;
   let minutes = parseInt(localTime / 60, 10);
   let seconds = parseInt(localTime % 60, 10);
@@ -73,5 +75,3 @@ export const convertNumberToString = (numberCount, exampleWords) => {
   return exampleWords[(numberCount % 100 > 4 && numberCount % 100 < 20) ? 2 :
     cases[(numberCount % 10 < 5) ? numberCount % 10 : 5]];
 };
-
-export default calculateUserGameResult;

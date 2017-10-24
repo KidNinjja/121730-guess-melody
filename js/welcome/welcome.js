@@ -1,9 +1,19 @@
 import {changeView} from '../render';
 import WelcomeView from './welcome-view';
-import artistSelection from '../artist-selection/artist-selection';
+import App from '../application';
 
-const welcome = new WelcomeView();
+class WelcomeScreen {
+  constructor() {
+    this.view = new WelcomeView();
+  }
 
-welcome.onStart = () => changeView(artistSelection());
+  init() {
+    changeView(this.view);
 
-export default () => welcome;
+    this.view.onStart = () => {
+      App.showGame();
+    };
+  }
+}
+
+export default new WelcomeScreen();

@@ -1,11 +1,19 @@
 import {changeView} from '../render';
 import MainResult from './main-result-view';
-import welcome from '../welcome/welcome';
+import App from '../application';
 
-const mainResult = new MainResult();
+class MainResultScreen {
+  constructor() {
+    this.view = new MainResult();
+  }
 
-mainResult.onStart = () => {
-  changeView(welcome());
-};
+  init() {
+    changeView(this.view);
 
-export default () => mainResult;
+    this.view.onStart = () => {
+      App.showWelcome();
+    };
+  }
+}
+
+export default new MainResultScreen();

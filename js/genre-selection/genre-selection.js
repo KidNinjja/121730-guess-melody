@@ -1,9 +1,20 @@
 import {changeView} from '../render';
 import GenreSelection from './genre-selection-view';
-import mainResult from '../main-result/main-result';
+import App from '../application';
 
-const genreSelection = new GenreSelection();
+class GenreSelectionScreen {
+  constructor() {
+    this.view = new GenreSelection();
+  }
 
-genreSelection.onStart = () => changeView(mainResult());
+  init() {
+    changeView(this.view);
 
-export default () => genreSelection;
+    this.view.onStart = () => {
+      App.showMainResultScreen();
+    };
+  }
+}
+
+
+export default new GenreSelectionScreen();
