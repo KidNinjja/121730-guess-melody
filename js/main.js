@@ -1,4 +1,3 @@
-import {changeView} from './render';
-import welcome from './welcome/welcome';
+import App from './application';
 
-changeView(welcome());
+App.showWelcome();

@@ -1,4 +1,5 @@
 import AbstractView from '../view';
+import App from '../application';
 
 export default class MainResult extends AbstractView {
 
@@ -20,11 +21,11 @@ export default class MainResult extends AbstractView {
     `);
   }
 
-  bind(element) {
-    const actionButton = element.querySelector(`.main-replay`);
+  bind() {
+    const actionButton = this.element.querySelector(`.main-replay`);
     actionButton.onclick = (event) => {
       event.preventDefault();
-      this.onStart();
+      App.showWelcome();
     };
   }
 

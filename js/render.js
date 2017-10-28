@@ -7,6 +7,6 @@ export const createElement = (template) => {
 };
 
 export const changeView = (view) => {
-  const outer = document.querySelector(`.main`);
+  const outer = document.querySelector(`.app__container`) || document.querySelector(`.main`);
   appContainer.replaceChild(view.element, outer);
 };

@@ -1,9 +1,19 @@
 import {changeView} from '../render';
-import ArtistSelection from './artist-selection-view';
-import genreSelection from '../genre-selection/genre-selection';
+import ArtistSelectionView from './artist-selection-view';
 
-const artistSelection = new ArtistSelection();
+class ArtistSelectionScreen {
+  constructor() {
+    this.view = new ArtistSelectionView();
+  }
 
-artistSelection.onStart = () => changeView(genreSelection());
+  init({data, onAnswer}) {
 
-export default () => artistSelection;
+    this.view.onAnswer = onAnswer;
+
+    this.view.data = data;
+
+    changeView(this.view);
+  }
+}
+
+export default new ArtistSelectionScreen();

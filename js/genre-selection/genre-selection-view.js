@@ -1,88 +1,23 @@
 import AbstractView from '../view';
+import {genreAnswer} from "../elements/genre-answer";
 
 export default class GenreSelection extends AbstractView {
+
+  constructor(data) {
+    super();
+    this.data = data.gameData;
+    this.onAnswer = data.onAnswer;
+    this.rightAnswer = data.rightAnswer;
+  }
 
   get template() {
     return (`
       <!-- Игра на выбор жанра -->
       <section class="main main--level main--level-genre">
-        <svg xmlns="http://www.w3.org/2000/svg" class="timer" viewBox="0 0 780 780">
-          <circle
-            cx="390" cy="390" r="370"
-            class="timer-line"
-            style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
-
-          <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-            <span class="timer-value-mins">05</span><!--
-            --><span class="timer-value-dots">:</span><!--
-            --><span class="timer-value-secs">00</span>
-          </div>
-        </svg>
-        <div class="main-mistakes">
-          <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-          <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-          <img class="main-mistake" src="img/wrong-answer.png" width="35" height="49">
-        </div>
-
         <div class="main-wrap">
-          <h2 class="title">Выберите инди-рок треки</h2>
+          <h2 class="title">${this.data.title}</h2>
           <form class="genre">
-            <div class="genre-answer">
-              <div class="player-wrapper">
-                <div class="player">
-                  <audio></audio>
-                  <button class="player-control player-control--pause"></button>
-                  <div class="player-track">
-                    <span class="player-status"></span>
-                  </div>
-                </div>
-              </div>
-              <input type="checkbox" name="answer" value="answer-1" id="a-1">
-              <label class="genre-answer-check" for="a-1"></label>
-            </div>
-
-            <div class="genre-answer">
-              <div class="player-wrapper">
-                <div class="player">
-                  <audio></audio>
-                  <button class="player-control player-control--play"></button>
-                  <div class="player-track">
-                    <span class="player-status"></span>
-                  </div>
-                </div>
-              </div>
-              <input type="checkbox" name="answer" value="answer-1" id="a-2">
-              <label class="genre-answer-check" for="a-2"></label>
-            </div>
-
-            <div class="genre-answer">
-              <div class="player-wrapper">
-                <div class="player">
-                  <audio></audio>
-                  <button class="player-control player-control--play"></button>
-                  <div class="player-track">
-                    <span class="player-status"></span>
-                  </div>
-                </div>
-              </div>
-              <input type="checkbox" name="answer" value="answer-1" id="a-3">
-              <label class="genre-answer-check" for="a-3"></label>
-            </div>
-
-            <div class="genre-answer">
-              <div class="player-wrapper">
-                <div class="player">
-                  <audio></audio>
-                  <button class="player-control player-control--play"></button>
-                  <div class="player-track">
-                    <span class="player-status"></span>
-                  </div>
-                </div>
-              </div>
-              <input type="checkbox" name="answer" value="answer-1" id="a-4">
-              <label class="genre-answer-check" for="a-4"></label>
-            </div>
-
+                ${this.data.questions.map((it) => genreAnswer(it)).join(``)}
             <button class="genre-answer-send" type="submit">Ответить</button>
           </form>
         </div>
@@ -90,11 +25,65 @@ export default class GenreSelection extends AbstractView {
     `);
   }
 
-  bind(element) {
-    const actionButton = element.querySelector(`.genre-answer-send`);
+  bind() {
+    const actionButton = this.element.querySelector(`.genre-answer-send`);
+    const playerActionButtons = this.element.querySelectorAll(`.player-control`);
+    const audioElements = this.element.querySelectorAll(`audio`);
+    const answerActionButtons = this.element.querySelectorAll(`.genre-answer-check`);
+    const answersCollection = new Set();
+    const answersBooleanSet = new Set();
+    let cashe = null;
+
+    actionButton.disabled = true;
+
+    for (const it of playerActionButtons) {
+      it.onclick = (event) => {
+        event.preventDefault();
+
+        event.target.classList.toggle(`player-control--pause`);
+
+        if (event.target.previousElementSibling.paused) {
+          for (const q of audioElements) {
+            if (!q.paused) {
+              q.nextElementSibling.classList.toggle(`player-control--pause`);
+              q.pause();
+            }
+          }
+          event.target.previousElementSibling.play();
+        } else {
+          event.target.previousElementSibling.pause();
+        }
+      };
+    }
+
+    for (const q of answerActionButtons) {
+      q.onclick = (event) => {
+        if (!event.target.previousElementSibling.checked) {
+          answersCollection.add(event.target.previousElementSibling.value);
+          actionButton.disabled = false;
+        } else {
+          actionButton.disabled = true;
+          answersCollection.delete(event.target.previousElementSibling.value);
+        }
+      };
+    }
+
     actionButton.onclick = (event) => {
       event.preventDefault();
-      this.onStart();
+      if (answersCollection.size < 2 && answersCollection.size > 0) {
+        answersBooleanSet.add(answersCollection.has([...this.rightAnswer.collection][0].genre));
+        this.onAnswer([...answersBooleanSet]);
+      } else if (answersCollection.size > 1) {
+        for (const q of this.rightAnswer.collection) {
+          cashe = q.genre;
+
+          for (const it of [...answersCollection]) {
+            answersBooleanSet.add(cashe === it);
+          }
+        }
+        this.onAnswer([...answersBooleanSet]);
+      }
+
     };
   }
 
