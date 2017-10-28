@@ -1,9 +1,15 @@
 import AbstractView from '../view';
-// import {mistakes} from '../elements/main-mistakes';
 import {musicPlayer} from '../elements/music-player';
-import {mainAnswer} from '../elements/main-answer';
-// ${/*this.state.lives.map((it) => mistakes(it)).join(``)*/}
+import {artistAnswer} from '../elements/artist-answer';
+
 export default class ArtistSelection extends AbstractView {
+
+  constructor(data) {
+    super();
+    this.data = data.gameData;
+    this.onAnswer = data.onAnswer;
+    this.rightAnswer = data.rightAnswer;
+  }
 
   get template() {
     return (`
@@ -15,11 +21,11 @@ export default class ArtistSelection extends AbstractView {
         <div class="main-wrap">
           <h2 class="title main-title">${this.data.title}</h2>
 
-            ${musicPlayer(this.data.questions[2].src)}
+            ${musicPlayer(this.rightAnswer.src)}
 
           <form class="main-list">
 
-            ${this.data.questions.map((it) => mainAnswer(it)).join(``)}
+            ${this.data.questions.map((it) => artistAnswer(it)).join(``)}
 
           </form>
         </div>
@@ -27,8 +33,8 @@ export default class ArtistSelection extends AbstractView {
     `);
   }
 
-  bind(element) {
-    const mainWrapper = element.querySelector(`.main-wrap`);
+  bind() {
+    const mainWrapper = this.element.querySelector(`.main-wrap`);
     const playerActionButton = mainWrapper.querySelector(`.player-control`);
     const audioElement = mainWrapper.querySelector(`audio`);
     const actionButtons = mainWrapper.querySelectorAll(`.main-answer-wrapper`);
