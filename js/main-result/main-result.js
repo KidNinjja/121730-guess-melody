@@ -4,11 +4,11 @@ import App from '../application';
 
 class MainResultScreen {
   constructor() {
-    this.view = new MainResult();
+    this.view = null;
   }
 
-  init() {
-    changeView(this.view);
+  init(data, contentData) {
+    changeView(this.view = new MainResult(data, contentData));
 
     this.view.onStart = () => {
       App.showWelcome();

@@ -44,14 +44,20 @@ export const gameTimer = (time = 300) => {
   let minutes = parseInt(localTime / 60, 10);
   let seconds = parseInt(localTime % 60, 10);
   let state = localTime;
+  const radiusTimeLine = 370;
+  const circularСurve = Math.ceil(Math.PI * (radiusTimeLine * 2));
+  let progressValue = 0;
+  let cashe = 0;
 
   return {
     tick() {
-      if (state === 0) {
+      if (state === 0 || state === -1) {
         return 0;
       }
 
       --state;
+      progressValue = (circularСurve / localTime) + cashe;
+      cashe = progressValue;
       minutes = parseInt(state / 60, 10);
       seconds = parseInt(state % 60, 10);
       minutes = minutes < 10 ? `0` + minutes : minutes;
@@ -65,10 +71,45 @@ export const gameTimer = (time = 300) => {
         seconds,
         time: state
       };
+    },
+    updateRadius() {
+      return {
+        dashArrayValue: circularСurve,
+        dashOffsetValue: progressValue
+      };
     }
   };
 };
 
+export const stringExampleMinutes = [
+  `минуту`,
+  `минуты`,
+  `минут`,
+];
+
+export const stringExampleSeconds = [
+  `секунду`,
+  `секунды`,
+  `cекунд`
+];
+
+export const stringExampleScores = [
+  `балл`,
+  `балла`,
+  `баллов`
+];
+
+export const stringExampleFastAnswers = [
+  `быстрый`,
+  `быстрых`,
+  `быстрых`
+];
+
+export const stringExampleFails = [
+  `ошибку`,
+  `ошибки`,
+  `ошибок`
+];
 export const convertNumberToString = (numberCount, exampleWords) => {
   const cases = [2, 0, 1, 1, 1, 2];
   numberCount = Math.abs(numberCount);

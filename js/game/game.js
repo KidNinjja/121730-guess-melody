@@ -1,32 +1,21 @@
 import AbstractView from "../view";
 import App from '../application';
 import GameView from './game-view';
+import GameModel from './game-model';
 import {changeView} from "../render";
-import {gameTimer} from "../data/game-data";
+import calculateUserGameResult from '../data/game-data';
+import {gameTimer, decisionPlayerResult} from '../data/game-data';
 import {gameInitialState} from "./game-initial-state";
-import {gameData} from "./game-screen-info";
+import {gameData} from './game-screen-info';
+import {gameResult} from '../main-result/main-result-data';
 
 const getRandomItem = (collection) => {
   return collection[Math.floor(Math.random() * collection.length)];
 };
 
-const sortCollection = (collection) => {
-  collection.sort((a, b) => {
-    if (a.genre < b.genre) {
-      return -1;
-    }
-    if (a.genre > b.genre) {
-      return 1;
-    }
-    return 0;
-  });
-};
-
 const getCollection = (collection) => {
   let randomRightItem = getRandomItem(collection);
   let collectionPull = null;
-
-  sortCollection(collection);
 
   collectionPull = collection.filter((it) => {
     return randomRightItem.genre === it.genre;
@@ -45,6 +34,7 @@ class GameScreen extends AbstractView {
     this.view = new GameView();
     this.data = {};
     this.answers = [];
+    this.timerId = null;
   }
 
   init() {
@@ -52,13 +42,25 @@ class GameScreen extends AbstractView {
     this.timer = gameTimer(gameInitialState.time);
     this.lifes = gameInitialState.lives;
     this.view.updateMistakes(this.lifes);
-
-    setInterval(() => {
-      this.timer.tick();
-      this.view.updateTimer(this.timer.getTime());
-    }, 1000);
-
+    this.initTimer();
     this.showNextQuestion();
+  }
+
+  initTimer() {
+    this.timerId = setInterval(this.updateTimer.bind(this), 1000);
+  }
+
+  updateTimer() {
+    this.timer.tick();
+    this.view.updateTimer(this.timer.getTime(), this.timer.updateRadius());
+    if (this.timer.getTime().time === 0) {
+      this.destroyTimer();
+      this.showResultScreen();
+    }
+  }
+
+  destroyTimer() {
+    clearInterval(this.timerId);
   }
 
   handleAnswerGenre(answer) {
@@ -66,7 +68,7 @@ class GameScreen extends AbstractView {
 
     this.answers.push({
       right: isRightAnswer,
-      time: this.startTime - this.timer.getTime().time
+      time: this.startTime - this.timer.getTime().time,
     });
 
     if (!isRightAnswer) {
@@ -81,7 +83,7 @@ class GameScreen extends AbstractView {
 
     this.answers.push({
       right: isRightAnswer,
-      time: this.startTime - this.timer.getTime().time
+      time: this.startTime - this.timer.getTime().time,
     });
 
     if (!isRightAnswer) {
@@ -93,7 +95,8 @@ class GameScreen extends AbstractView {
 
   showNextQuestion() {
     if (this.lifes < 1 || this.answers.length >= 10) {
-      App.showMainResultScreen(this.answers);
+      this.destroyTimer();
+      this.showResultScreen();
     }
 
     const screenKey = Math.random() >= 0.5 ? `artistSelection` : `genreSelection`;
@@ -132,43 +135,31 @@ class GameScreen extends AbstractView {
     }
   }
 
-  // tick() {
-  //   this.timer.tick();
-  //   this.view.updateHeader();
-  //
-  //   this.timer = setTimeout(() => this.tick(), 1000);
-  // }
-  //
-  // stopTimer() {
-  //   clearTimeout(this.timer);
-  // }
-  getArtists() {
-    return {
-      title: `Кто исполняет эту песню?`,
-      questions: [
-        {
-          artist: `Kevin MacLeod`,
-          name: `Long Stroll`,
-          image: `https://yt3.ggpht.com/-fkDeGauT7Co/AAAAAAAAAAI/AAAAAAAAAAA/dkF5ZKkrxRo/s900-c-k-no-mo-rj-c0xffffff/photo.jpg`,
-          src: `https://www.youtube.com/audiolibrary_download?vid=91624fdc22fc54ed`,
-          genre: `Jazz`,
-        },
-        {
-          artist: `Jingle Punks`,
-          name: `In the Land of Rhinoplasty`,
-          image: `https://i.vimeocdn.com/portrait/992615_300x300`,
-          src: `https://www.youtube.com/audiolibrary_download?vid=dc3b4dc549becd6b`,
-          genre: `Rock`
-        },
-        {
-          artist: `Audionautix`,
-          name: `Travel Light`,
-          image: `http://4.bp.blogspot.com/-kft9qu5ET6U/VPFUBi9W-MI/AAAAAAAACYM/UxXilXKYwOc/s1600/audionautix%2BHalf%2BSize.jpg`,
-          src: `https://www.youtube.com/audiolibrary_download?vid=a127d9b7de8a17cf`,
-          genre: `Country`
-        }
-      ]
+  showResultScreen() {
+    const userResult = {
+      scores: calculateUserGameResult(this.answers),
+      notes: this.lifes,
+      time: this.timer.getTime().time,
     };
+    let contentInfo = {
+      minutes: +this.timer.getTime().minutes,
+      seconds: +this.timer.getTime().seconds,
+      scores: userResult.scores,
+      fastAnswers: this.answers.filter((it) => it.time < 30),
+      fails: this.lifes < gameInitialState.lives ? gameInitialState.lives - this.lifes : 0
+    };
+    switch (true) {
+      case userResult.notes < 1:
+        contentInfo.title = gameResult.gameOver.title;
+        break;
+      case userResult.time <= 0:
+        contentInfo.title = gameResult.timeLeft.title;
+        break;
+      default:
+        contentInfo.title = gameResult.win.title;
+        break;
+    }
+    App.showMainResultScreen(decisionPlayerResult(userResult, [4, 5, 8, 11]), contentInfo);
   }
 }
 

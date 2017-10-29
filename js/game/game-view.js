@@ -2,7 +2,7 @@ import AbstractView from "../view";
 import Timer from '../elements/timer';
 import Mistakes from '../elements/main-mistakes';
 import ArtistSelection from '../artist-selection/artist-selection-view';
-import GenreSelection from '../genre-selection/genre-selection-view'; // Переименовать на index.js
+import GenreSelection from '../genre-selection/genre-selection-view';
 
 const updateMarkup = (container, view) => {
   container.innerHTML = ``;
@@ -30,8 +30,8 @@ export default class GameView extends AbstractView {
     this.gameScreen = this.element.querySelector(`.game-container`);
   }
 
-  updateTimer(data) {
-    updateMarkup(this.timer, new Timer(data));
+  updateTimer(data, circleData) {
+    updateMarkup(this.timer, new Timer(data, circleData));
   }
 
   updateMistakes(data) {

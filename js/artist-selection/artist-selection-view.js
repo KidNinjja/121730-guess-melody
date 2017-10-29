@@ -34,6 +34,7 @@ export default class ArtistSelection extends AbstractView {
   }
 
   bind() {
+    console.log(this.rightAnswer)
     const mainWrapper = this.element.querySelector(`.main-wrap`);
     const playerActionButton = mainWrapper.querySelector(`.player-control`);
     const audioElement = mainWrapper.querySelector(`audio`);

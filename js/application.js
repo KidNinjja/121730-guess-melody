@@ -22,7 +22,7 @@ export default class Application {
   //   genreSelection.init();
   // }
 
-  static showMainResultScreen() {
-    mainResult.init();
+  static showMainResultScreen(data, contentData) {
+    mainResult.init(data, contentData);
   }
 }
