@@ -28,10 +28,10 @@ const getCollection = (collection) => {
 
 };
 
-class GameScreen extends AbstractView {
+class GameScreen {
   constructor() {
-    super();
-    this.view = new GameView();
+    this.model = new GameModel(gameInitialState);
+    this.view = new GameView(this.model);
     this.data = {};
     this.answers = [];
     this.timerId = null;
