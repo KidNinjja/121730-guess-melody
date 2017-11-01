@@ -1,6 +1,4 @@
 import welcome from './welcome/welcome';
-// import artistSelection from './artist-selection/artist-selection';
-// import genreSelection from './genre-selection/genre-selection';
 import mainResult from './main-result/main-result';
 import game from './game/game';
 
@@ -14,15 +12,7 @@ export default class Application {
     welcome.init();
   }
 
-  // static showArtistSelection(data) {
-  //   artistSelection.init(data);
-  // }
-
-  // static showGenreSelection() {
-  //   genreSelection.init();
-  // }
-
-  static showMainResultScreen(data, contentData) {
-    mainResult.init(data, contentData);
+  static showMainResultScreen(data) {
+    mainResult.init(data);
   }
 }

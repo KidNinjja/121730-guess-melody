@@ -1,13 +1,14 @@
 import AbstractView from '../view';
 import App from '../application';
 import {convertNumberToString, stringExampleMinutes, stringExampleSeconds, stringExampleScores, stringExampleFastAnswers, stringExampleFails} from '../data/game-data';
+import {getTimeArrayFromSeconds} from '../utils';
 
 export default class MainResult extends AbstractView {
-  constructor(data, contentInfo) {
+  constructor(data) {
     super();
-    this.resultData = data;
-    this.contentInfo = contentInfo;
-    this.fastAnswers = this.contentInfo.fastAnswers.length;
+    this.data = data;
+    this.minutes = getTimeArrayFromSeconds(this.data.spentTime)[0];
+    this.seconds = getTimeArrayFromSeconds(this.data.spentTime)[1];
   }
 
   get template() {
@@ -17,14 +18,14 @@ export default class MainResult extends AbstractView {
         <section class="logo" title="Угадай мелодию">
           <h1>Угадай мелодию</h1>
         </section>
-        <h2 class="title">${this.contentInfo.title}</h2>
+        <h2 class="title"></h2>
         <div class="main-stat">
-          За&nbsp;${this.contentInfo.minutes}&nbsp;${convertNumberToString(this.contentInfo.minutes, stringExampleMinutes)} и
-          ${this.contentInfo.seconds}&nbsp;${convertNumberToString(this.contentInfo.seconds, stringExampleSeconds)}
-          <br>вы&nbsp;набрали ${this.contentInfo.scores} ${convertNumberToString(this.contentInfo.scores, stringExampleScores)}
-          (${this.fastAnswers} ${convertNumberToString(this.fastAnswers, stringExampleFastAnswers)})
-          <br>совершив ${this.contentInfo.fails} ${convertNumberToString(this.contentInfo.fails, stringExampleFails)}</div>
-        <span class="main-comparison">${this.resultData}</span>
+          За ${this.minutes} ${convertNumberToString(this.minutes, stringExampleMinutes)} и
+          ${this.seconds} ${convertNumberToString(this.seconds, stringExampleSeconds)}
+          <br>вы набрали ${this.data.userScore} ${convertNumberToString(this.data.userScore, stringExampleScores)}
+          (${this.data.fastAnswers} ${convertNumberToString(this.data.fastAnswers, stringExampleFastAnswers)})
+          <br>совершив ${this.data.fails} ${convertNumberToString(this.data.fails, stringExampleFails)}</div>
+        <span class="main-comparison">${this.data.result}</span>
         <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
       </section>
     `);

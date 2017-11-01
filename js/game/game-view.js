@@ -3,6 +3,7 @@ import Timer from '../elements/timer';
 import Mistakes from '../elements/main-mistakes';
 import ArtistSelection from '../artist-selection/artist-selection-view';
 import GenreSelection from '../genre-selection/genre-selection-view';
+import {getTimeArrayFromSeconds, getTimeLineRadiusFromSeconds} from '../utils';
 
 const updateMarkup = (container, view) => {
   container.innerHTML = ``;
@@ -10,8 +11,9 @@ const updateMarkup = (container, view) => {
 };
 
 export default class GameView extends AbstractView {
-  constructor() {
+  constructor(gameModel) {
     super();
+    this.model = gameModel;
   }
 
   get template() {
@@ -30,19 +32,39 @@ export default class GameView extends AbstractView {
     this.gameScreen = this.element.querySelector(`.game-container`);
   }
 
-  updateTimer(data, circleData) {
-    updateMarkup(this.timer, new Timer(data, circleData));
+  updateTimer() {
+    const timeString = getTimeArrayFromSeconds(this.model.time);
+    const timeLine = getTimeLineRadiusFromSeconds(this.model.time);
+    updateMarkup(this.timer, new Timer(timeString, timeLine));
   }
 
-  updateMistakes(data) {
-    updateMarkup(this.mistakes, new Mistakes(data));
+  updateMistakes() {
+    updateMarkup(this.mistakes, new Mistakes(this.model.lifes));
   }
 
-  updateArtistScreen(data) {
-    updateMarkup(this.gameScreen, new ArtistSelection(data));
+  updateArtistScreen() {
+    const view = new ArtistSelection({
+      gameData: this.model.question,
+      rightAnswer: this.model.rightAnswer,
+      onAnswer: this.onAnswer
+    });
+    updateMarkup(this.gameScreen, view);
   }
 
-  updateGenreScren(data) {
-    updateMarkup(this.gameScreen, new GenreSelection(data));
+  updateGenreScren() {
+    const view = new GenreSelection({
+      gameData: this.model.question,
+      rightAnswer: this.model.rightAnswer,
+      onAnswer: this.onAnswer
+    });
+    updateMarkup(this.gameScreen, view);
+  }
+
+  updateGameScreen() {
+    if (this.model.currentScreen === `artistSelection`) {
+      this.updateArtistScreen();
+    } else {
+      this.updateGenreScren();
+    }
   }
 }

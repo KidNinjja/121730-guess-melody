@@ -191,13 +191,13 @@ describe(`decisionPlayerResult`, () => {
 });
 
 describe(`gameTimer`, () => {
-  it(`should return cont -1 without error`, () => {
+  it(`should return count -1 without error`, () => {
     const newGameTime = gameTimer(5);
-    assert.equal(4, newGameTime.tick(), `Время! ${newGameTime.getTime().time}`);
+    assert.equal(4, newGameTime.tick() ? newGameTime.value : false, `Время! ${newGameTime.value}`);
   });
-  it(`should return string example when time is over`, () => {
+  it(`should return false when time is over`, () => {
     const newGameTime = gameTimer(1);
-    assert.equal(`Время закончено`, newGameTime.tick(), `Время! ${newGameTime.getTime().time}`);
+    assert.equal(false, newGameTime.tick() ? false : newGameTime.value, `Время! ${newGameTime.value}`);
   });
 });
 

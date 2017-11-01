@@ -20,9 +20,9 @@ export default class Timer extends AbstractView {
           </circle>
         </svg>
         <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-            <span class="timer-value-mins">${this.data.minutes}</span><!--
+            <span class="timer-value-mins">${this.data[0]}</span><!--
             --><span class="timer-value-dots">:</span><!--
-            --><span class="timer-value-secs">${this.data.seconds}</span>
+            --><span class="timer-value-secs">${this.data[1]}</span>
         </div>
     </div>
     `);

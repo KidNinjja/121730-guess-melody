@@ -39,44 +39,15 @@ export const decisionPlayerResult = (userData, playersResult) => {
   }
 };
 
-export const gameTimer = (time = 300) => {
-  let localTime = time;
-  let minutes = parseInt(localTime / 60, 10);
-  let seconds = parseInt(localTime % 60, 10);
-  let state = localTime;
-  const radiusTimeLine = 370;
-  const circularСurve = Math.ceil(Math.PI * (radiusTimeLine * 2));
-  let progressValue = 0;
-  let cashe = 0;
-
+export const gameTimer = (time) => {
   return {
+    value: time,
     tick() {
-      if (state === 0 || state === -1) {
-        return 0;
+      if (this.value <= 0) {
+        return false;
       }
-
-      --state;
-      progressValue = (circularСurve / localTime) + cashe;
-      cashe = progressValue;
-      minutes = parseInt(state / 60, 10);
-      seconds = parseInt(state % 60, 10);
-      minutes = minutes < 10 ? `0` + minutes : minutes;
-      seconds = seconds < 10 ? `0` + seconds : seconds;
-
-      return state > 0 ? state : `Время закончено`;
-    },
-    getTime() {
-      return {
-        minutes,
-        seconds,
-        time: state
-      };
-    },
-    updateRadius() {
-      return {
-        dashArrayValue: circularСurve,
-        dashOffsetValue: progressValue
-      };
+      this.value -= 1;
+      return true;
     }
   };
 };
