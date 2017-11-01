@@ -173,7 +173,7 @@ describe(`decisionPlayerResult`, () => {
       notes: 2,
       scores: 10
     };
-    const testStringExample = `Время вышло! Вы не успели отгадать все мелодии`;
+    const testStringExample = `Время вышло!</br>Вы не успели отгадать все мелодии`;
     const result = decisionPlayerResult(userResultData, anotherGamersData);
     assert.equal(testStringExample, result, `Результат ${result}`);
   });
@@ -184,7 +184,7 @@ describe(`decisionPlayerResult`, () => {
       notes: 0,
       scores: 10
     };
-    const testStringExample = `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
+    const testStringExample = `У вас закончились все попытки.</br>Ничего, повезёт в следующий раз!`;
     const result = decisionPlayerResult(userResultData, anotherGamersData);
     assert.equal(testStringExample, result, `Результат ${result}`);
   });

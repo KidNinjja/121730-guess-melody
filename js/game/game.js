@@ -6,9 +6,6 @@ import {gameTimer} from '../data/game-data';
 import {gameInitialState} from "./game-initial-state";
 
 class GameScreen {
-  constructor() {
-    this.timerId = null;
-  }
 
   init() {
     this.model = new GameModel(gameInitialState);

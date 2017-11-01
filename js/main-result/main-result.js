@@ -4,10 +4,6 @@ import MainResultModel from './main-result-model';
 import App from '../application';
 
 class MainResultScreen {
-  constructor() {
-    this.view = null;
-    this.model = null;
-  }
 
   init(data) {
     this.model = new MainResultModel(data);

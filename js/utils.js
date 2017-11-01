@@ -12,7 +12,7 @@ export const getTimeArrayFromSeconds = (secondsCount) => {
   return [minutes, seconds];
 };
 
-// TODO Переписать
+
 export const getTimeLineRadiusFromSeconds = (secondsCount) => {
   const radiusTimeLine = 370;
   const circularСurve = Math.ceil(Math.PI * (radiusTimeLine * 2));
