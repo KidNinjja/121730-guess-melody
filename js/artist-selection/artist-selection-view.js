@@ -16,17 +16,11 @@ export default class ArtistSelection extends AbstractView {
       <!-- Игра на выбор исполнителя -->
 
       <section class="main main--level main--level-artist">
-        
-
         <div class="main-wrap">
           <h2 class="title main-title">${this.data.title}</h2>
-
-            ${musicPlayer(this.rightAnswer.src)}
-
+          ${musicPlayer(this.rightAnswer.src)}
           <form class="main-list">
-
             ${this.data.questions.map((it) => artistAnswer(it)).join(``)}
-
           </form>
         </div>
       </section>
@@ -54,7 +48,8 @@ export default class ArtistSelection extends AbstractView {
 
     [...actionButtons].forEach((it) => {
       it.onclick = () => {
-        this.onAnswer(this.data.questions.find((q) => q.artist === it.querySelector(`input`).value));
+        const answer = this.data.questions.find((q) => q.artist === it.querySelector(`input`).value);
+        this.onAnswer(answer === this.rightAnswer);
       };
     });
   }

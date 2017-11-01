@@ -25,9 +25,9 @@ export default calculateUserGameResult;
 
 export const decisionPlayerResult = (userData, playersResult) => {
   if (userData.time <= 0) {
-    return `Время вышло! Вы не успели отгадать все мелодии`;
+    return `Время вышло!</br>Вы не успели отгадать все мелодии`;
   } else if (userData.notes <= 0) {
-    return `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
+    return `У вас закончились все попытки.</br>Ничего, повезёт в следующий раз!`;
   } else {
     playersResult.push(userData.scores);
     const playersResultLength = playersResult.length;
@@ -39,36 +39,48 @@ export const decisionPlayerResult = (userData, playersResult) => {
   }
 };
 
-export const gameTimer = (time = 300) => {
-  let localTime = time;
-  let minutes = parseInt(localTime / 60, 10);
-  let seconds = parseInt(localTime % 60, 10);
-  let state = localTime;
-
+export const gameTimer = (time) => {
   return {
+    value: time,
     tick() {
-      if (state === 0) {
-        return 0;
+      if (this.value <= 0) {
+        return false;
       }
-
-      --state;
-      minutes = parseInt(state / 60, 10);
-      seconds = parseInt(state % 60, 10);
-      minutes = minutes < 10 ? `0` + minutes : minutes;
-      seconds = seconds < 10 ? `0` + seconds : seconds;
-
-      return state > 0 ? state : `Время закончено`;
-    },
-    getTime() {
-      return {
-        minutes,
-        seconds,
-        time: state
-      };
+      this.value -= 1;
+      return true;
     }
   };
 };
 
+export const stringExampleMinutes = [
+  `минуту`,
+  `минуты`,
+  `минут`,
+];
+
+export const stringExampleSeconds = [
+  `секунду`,
+  `секунды`,
+  `cекунд`
+];
+
+export const stringExampleScores = [
+  `балл`,
+  `балла`,
+  `баллов`
+];
+
+export const stringExampleFastAnswers = [
+  `быстрый`,
+  `быстрых`,
+  `быстрых`
+];
+
+export const stringExampleFails = [
+  `ошибку`,
+  `ошибки`,
+  `ошибок`
+];
 export const convertNumberToString = (numberCount, exampleWords) => {
   const cases = [2, 0, 1, 1, 1, 2];
   numberCount = Math.abs(numberCount);

@@ -1,9 +1,10 @@
 import AbstractView from "../view";
 
 export default class Timer extends AbstractView {
-  constructor(data) {
+  constructor(data, circleData) {
     super();
     this.data = data;
+    this.circleData = circleData;
   }
 
   get template() {
@@ -13,12 +14,15 @@ export default class Timer extends AbstractView {
           <circle
             cx="390" cy="390" r="370"
             class="timer-line"
-            style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center"></circle>
+            stroke-dasharray="${this.circleData.dashArrayValue}"
+            stroke-dashoffset="${this.circleData.dashOffsetValue}"
+            style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center">
+          </circle>
         </svg>
         <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
-            <span class="timer-value-mins">${this.data.minutes}</span><!--
+            <span class="timer-value-mins">${this.data[0]}</span><!--
             --><span class="timer-value-dots">:</span><!--
-            --><span class="timer-value-secs">${this.data.seconds}</span>
+            --><span class="timer-value-secs">${this.data[1]}</span>
         </div>
     </div>
     `);

@@ -1,7 +1,30 @@
 import AbstractView from '../view';
 import App from '../application';
+import {convertNumberToString, stringExampleMinutes, stringExampleSeconds, stringExampleScores, stringExampleFastAnswers, stringExampleFails} from '../data/game-data';
+import {getTimeArrayFromSeconds} from '../utils';
 
 export default class MainResult extends AbstractView {
+  constructor(data) {
+    super();
+    this.data = data;
+    this.minutes = getTimeArrayFromSeconds(this.data.spentTime)[0];
+    this.seconds = getTimeArrayFromSeconds(this.data.spentTime)[1];
+    this.winTemplate = (`
+      <div class="main-stat">
+        За ${this.minutes} ${convertNumberToString(this.minutes, stringExampleMinutes)} и
+        ${this.seconds} ${convertNumberToString(this.seconds, stringExampleSeconds)}
+        <br>вы набрали ${this.data.userScore} ${convertNumberToString(this.data.userScore, stringExampleScores)}
+        (${this.data.fastAnswers} ${convertNumberToString(this.data.fastAnswers, stringExampleFastAnswers)})
+        <br>совершив ${this.data.fails} ${convertNumberToString(this.data.fails, stringExampleFails)}
+      </div>
+      <span class="main-comparison">${this.data.result}</span>
+    `);
+    this.loseTemplate = (`
+      <div class="main-stat">
+        <span class="main-comparison">${this.data.result}</span></br>
+      </div>
+    `);
+  }
 
   get template() {
     return (`
@@ -10,12 +33,8 @@ export default class MainResult extends AbstractView {
         <section class="logo" title="Угадай мелодию">
           <h1>Угадай мелодию</h1>
         </section>
-        <h2 class="title">Вы настоящий меломан!</h2>
-        <div class="main-stat">
-          За&nbsp;3&nbsp;минуты и 25&nbsp;секунд
-          <br>вы&nbsp;набрали 12 баллов (8 быстрых)
-          <br>совершив 3 ошибки</div>
-        <span class="main-comparison">Вы заняли 2 место из 10. Это&nbsp;лучше чем у&nbsp;80%&nbsp;игроков</span>
+        <h2 class="title"></h2>
+        ${this.data.fails === 3 || this.data.spentTime <= 0 ? this.loseTemplate : this.winTemplate }
         <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
       </section>
     `);

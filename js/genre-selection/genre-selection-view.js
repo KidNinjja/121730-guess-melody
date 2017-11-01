@@ -31,8 +31,6 @@ export default class GenreSelection extends AbstractView {
     const audioElements = this.element.querySelectorAll(`audio`);
     const answerActionButtons = this.element.querySelectorAll(`.genre-answer-check`);
     const answersCollection = new Set();
-    const answersBooleanSet = new Set();
-    let cashe = null;
 
     actionButton.disabled = true;
 
@@ -70,20 +68,7 @@ export default class GenreSelection extends AbstractView {
 
     actionButton.onclick = (event) => {
       event.preventDefault();
-      if (answersCollection.size < 2 && answersCollection.size > 0) {
-        answersBooleanSet.add(answersCollection.has([...this.rightAnswer.collection][0].genre));
-        this.onAnswer([...answersBooleanSet]);
-      } else if (answersCollection.size > 1) {
-        for (const q of this.rightAnswer.collection) {
-          cashe = q.genre;
-
-          for (const it of [...answersCollection]) {
-            answersBooleanSet.add(cashe === it);
-          }
-        }
-        this.onAnswer([...answersBooleanSet]);
-      }
-
+      this.onAnswer([...answersCollection].every((element) => element === this.rightAnswer.genre));
     };
   }
 

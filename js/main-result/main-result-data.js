@@ -1,14 +1,11 @@
-export const GAME_RESULT = {
+export const gameResult = {
   win: {
     title: `Вы настоящий меломан!`,
-    content: `Вызов функции для подсчета баллов`
   },
   timeLeft: {
-    title: `Увы и ах!`,
-    content: `Время вышло!<br>Вы не успели отгадать все мелодии`
+    title: `Увы и ах!`
   },
   gameOver: {
-    title: `Какая жалость!`,
-    content: `У вас закончились все попытки.<br>Ничего, повезёт в следующий раз!`
+    title: `Какая жалость!`
   }
 };

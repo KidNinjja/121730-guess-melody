@@ -173,7 +173,7 @@ describe(`decisionPlayerResult`, () => {
       notes: 2,
       scores: 10
     };
-    const testStringExample = `Время вышло! Вы не успели отгадать все мелодии`;
+    const testStringExample = `Время вышло!</br>Вы не успели отгадать все мелодии`;
     const result = decisionPlayerResult(userResultData, anotherGamersData);
     assert.equal(testStringExample, result, `Результат ${result}`);
   });
@@ -184,20 +184,20 @@ describe(`decisionPlayerResult`, () => {
       notes: 0,
       scores: 10
     };
-    const testStringExample = `У вас закончились все попытки. Ничего, повезёт в следующий раз!`;
+    const testStringExample = `У вас закончились все попытки.</br>Ничего, повезёт в следующий раз!`;
     const result = decisionPlayerResult(userResultData, anotherGamersData);
     assert.equal(testStringExample, result, `Результат ${result}`);
   });
 });
 
 describe(`gameTimer`, () => {
-  it(`should return cont -1 without error`, () => {
+  it(`should return count -1 without error`, () => {
     const newGameTime = gameTimer(5);
-    assert.equal(4, newGameTime.tick(), `Время! ${newGameTime.getTime().time}`);
+    assert.equal(4, newGameTime.tick() ? newGameTime.value : false, `Время! ${newGameTime.value}`);
   });
-  it(`should return string example when time is over`, () => {
+  it(`should return false when time is over`, () => {
     const newGameTime = gameTimer(1);
-    assert.equal(`Время закончено`, newGameTime.tick(), `Время! ${newGameTime.getTime().time}`);
+    assert.equal(false, newGameTime.tick() ? false : newGameTime.value, `Время! ${newGameTime.value}`);
   });
 });
 
