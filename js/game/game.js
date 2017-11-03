@@ -3,16 +3,15 @@ import GameView from './game-view';
 import GameModel from './game-model';
 import {changeView} from "../render";
 import {gameTimer} from '../data/game-data';
-import {gameInitialState} from "./game-initial-state";
 
 class GameScreen {
 
-  init() {
-    this.model = new GameModel(gameInitialState);
+  init(data) {
+    this.model = new GameModel([data]);
     this.view = new GameView(this.model);
     this.view.onAnswer = this.handleAnswer.bind(this);
     changeView(this.view);
-    this.timer = gameTimer(gameInitialState.time);
+    this.timer = gameTimer(data.time);
     this.model.setTime(this.timer.value);
     this.view.updateTimer();
     this.view.updateMistakes();
