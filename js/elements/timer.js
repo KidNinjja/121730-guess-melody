@@ -19,7 +19,8 @@ export default class Timer extends AbstractView {
             style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center">
           </circle>
         </svg>
-        <div class="timer-value" xmlns="http://www.w3.org/1999/xhtml">
+        <div class="timer-value ${+this.data[0] === 0 && +this.data[1] < 30 ? `timer-value--finished` : ``}"
+            xmlns="http://www.w3.org/1999/xhtml">
             <span class="timer-value-mins">${this.data[0]}</span><!--
             --><span class="timer-value-dots">:</span><!--
             --><span class="timer-value-secs">${this.data[1]}</span>

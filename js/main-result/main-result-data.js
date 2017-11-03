@@ -1,4 +1,4 @@
-export const gameResult = {
+export const gameResultTitle = {
   win: {
     title: `Вы настоящий меломан!`,
   },
