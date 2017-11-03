@@ -49,8 +49,8 @@ export default class Application {
     location.hash = ControllerId.WELCOME;
   }
 
-  static showGame(state = gameInitialState) {
-    location.hash = `${ControllerId.GAME}?${saveState(state)}`;
+  static showGame() {
+    location.hash = `${ControllerId.GAME}`;
   }
 
   static showMainResultScreen(state) {

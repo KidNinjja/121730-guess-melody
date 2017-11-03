@@ -4,7 +4,7 @@ import {getRandomItem} from '../utils';
 
 export default class GameModel {
   constructor(data) {
-    this.data = data;
+    this.data = [data];
     this.lifes = gameInitialState.lifes;
     this.answers = [];
     this.currentQuestion = this.setRandomQuestion();
