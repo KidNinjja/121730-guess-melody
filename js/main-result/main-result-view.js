@@ -3,8 +3,19 @@ import App from '../application';
 import {convertNumberToString, stringExampleMinutes, stringExampleSeconds, stringExampleScores, stringExampleFastAnswers, stringExampleFails} from '../data/game-data';
 import {getTimeArrayFromSeconds} from '../utils';
 import {gameResultTitle} from './main-result-data';
-
+/**
+ * 
+ * 
+ * @export
+ * @class MainResult
+ * @extends {AbstractView}
+ */
 export default class MainResult extends AbstractView {
+  /**
+   * Creates an instance of MainResult.
+   * @param {Object} data 
+   * @memberof MainResult
+   */
   constructor(data) {
     super();
     this.data = data;

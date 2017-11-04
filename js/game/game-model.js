@@ -1,10 +1,19 @@
 import {gameInitialState} from "./game-initial-state";
-import {gameData} from './game-screen-info';
 import {getRandomItem} from '../utils';
-
+/**
+ * 
+ * 
+ * @export
+ * @class GameModel
+ */
 export default class GameModel {
+  /**
+   * Creates an instance of GameModel.
+   * @param {Array} data 
+   * @memberof GameModel
+   */
   constructor(data) {
-    this.data = [data];
+    this.data = data;
     this.lifes = gameInitialState.lifes;
     this.answers = [];
     this.currentQuestion = this.setRandomQuestion();
@@ -26,24 +35,18 @@ export default class GameModel {
 
   setRandomQuestion() {
     this.currentScreen = Math.random() >= 0.5 ? `artistSelection` : `genreSelection`;
-    const localData = gameData[this.currentScreen];
-    const list = new Set();
+    const localData = this.data[this.currentScreen];
 
-    while (list.size < (this.currentScreen === `artistSelection` ? 3 : 4)) {
-      list.add(getRandomItem(localData.questions));
-    }
-
-    const questions = [...list];
-
+    const questions = getRandomItem(localData.questions);
     if (this.currentScreen === `artistSelection`) {
-      this.rightAnswer = getRandomItem(questions);
+      this.rightAnswer = questions.answers.map((it) => it.isCorrect ? it.title : ``).join(``);
       this.question = {
         title: localData.title
       };
     } else {
-      this.rightAnswer = getRandomItem(questions);
+      this.rightAnswer = questions.rightAnswer;
       this.question = {
-        title: localData.title(this.rightAnswer.genre)
+        title: questions.title
       };
     }
 

@@ -1,5 +1,11 @@
 import {createElement} from './render';
 
+/**
+ * å
+ * 
+ * @export
+ * @class AbstractView
+ */
 export default class AbstractView {
 
   get template() {

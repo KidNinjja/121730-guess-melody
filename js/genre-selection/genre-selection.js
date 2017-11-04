@@ -1,8 +1,16 @@
 import {changeView} from '../render';
 import GenreSelection from './genre-selection-view';
 import App from '../application';
-
+/**
+ * 
+ * 
+ * @class GenreSelectionScreen
+ */
 class GenreSelectionScreen {
+  /**
+   * Creates an instance of GenreSelectionScreen.
+   * @memberof GenreSelectionScreen
+   */
   constructor() {
     this.view = new GenreSelection();
   }

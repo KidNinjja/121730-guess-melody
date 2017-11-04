@@ -1,6 +1,15 @@
 import AbstractView from '../view';
-
+/**
+ * 
+ * 
+ * @export
+ * @class WelcomeView
+ * @extends {AbstractView}
+ */
 export default class WelcomeView extends AbstractView {
+  constructor() {
+    super();
+  }
 
   get template() {
     return (`

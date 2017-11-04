@@ -1,9 +1,19 @@
 import AbstractView from '../view';
 import {musicPlayer} from '../elements/music-player';
 import {artistAnswer} from '../elements/artist-answer';
-
+/**
+ * 
+ * 
+ * @export
+ * @class ArtistSelection
+ * @extends {AbstractView}
+ */
 export default class ArtistSelection extends AbstractView {
-
+  /**
+   * Creates an instance of ArtistSelection.
+   * @param {Object} data 
+   * @memberof ArtistSelection
+   */
   constructor(data) {
     super();
     this.data = data.gameData;
@@ -20,7 +30,7 @@ export default class ArtistSelection extends AbstractView {
           <h2 class="title main-title">${this.data.title}</h2>
           ${musicPlayer(this.rightAnswer.src)}
           <form class="main-list">
-            ${this.data.questions.map((it) => artistAnswer(it)).join(``)}
+            ${this.data.questions.answers.map((it) => artistAnswer(it)).join(``)}
           </form>
         </div>
       </section>
@@ -48,8 +58,8 @@ export default class ArtistSelection extends AbstractView {
 
     [...actionButtons].forEach((it) => {
       it.onclick = () => {
-        const answer = this.data.questions.find((q) => q.artist === it.querySelector(`input`).value);
-        this.onAnswer(answer === this.rightAnswer);
+        const answer = this.data.questions.answers.find((q) => q.title === it.querySelector(`input`).value);
+        this.onAnswer(answer.title === this.rightAnswer);
       };
     });
   }
