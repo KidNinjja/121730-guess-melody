@@ -24,6 +24,7 @@ const calculateUserGameResult = (gameUserData) => {
 export default calculateUserGameResult;
 
 export const decisionPlayerResult = (userData, playersResult) => {
+  console.log(playersResult)
   if (userData.time <= 0) {
     return `Время вышло!</br>Вы не успели отгадать все мелодии`;
   } else if (userData.notes <= 0) {
@@ -31,11 +32,9 @@ export const decisionPlayerResult = (userData, playersResult) => {
   } else {
     playersResult.push(userData.scores);
     const playersResultLength = playersResult.length;
-    const playerPosition = (playersResult.sort((a, b) => b - a)
-      .indexOf(userData.scores)) + 1;
-    const userResult = playersResult
-        .filter((it) => it < (userData.scores)).length / playersResult.length;
-    return `Вы заняли ${playerPosition}-ое место из ${playersResultLength} игроков. Это лучше чем у ${userResult * 100}% игроков.`;
+    const playerPosition = (playersResult.sort((a, b) => b - a).indexOf(userData.scores)) + 1;
+    const userResult = 1 - (playerPosition / playersResult.length);
+    return `Вы заняли ${playerPosition}-ое место из ${playersResultLength} игроков. Это лучше чем у ${Math.round(userResult * 100)}% игроков.`;
   }
 };
 

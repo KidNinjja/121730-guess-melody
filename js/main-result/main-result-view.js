@@ -63,7 +63,7 @@ export default class MainResult extends AbstractView {
     };
 
     if (this.data.fails > 0 || this.data.spentTime > 0) {
-      Loader.saveResults(this.data.userScore);
+      Loader.saveResults({score: this.data.userScore});
     }
   }
 

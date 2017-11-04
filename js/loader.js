@@ -1,7 +1,7 @@
 const DATA_URL = `https://es.dump.academy/guess-melody/questions`;
 const SERVER_URL = `https://es.dump.academy/guess-melody/`;
 
-const DEFAULT_NAME = `id121730`;
+const DEFAULT_NAME = `121730`;
 /**
  * xw
  * 
@@ -12,6 +12,10 @@ export default class Loader {
 
   static loadData() {
     return window.fetch(`${DATA_URL}`).then((resolve) => resolve.json());
+  }
+
+  static getStatistics(name = DEFAULT_NAME) {
+    return window.fetch(`${SERVER_URL}/stats/${name}`).then((resolve) => resolve.json());
   }
 
   static saveResults(data, name = DEFAULT_NAME) {
