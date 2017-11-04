@@ -1,8 +1,18 @@
 import AbstractView from '../view';
 import {genreAnswer} from "../elements/genre-answer";
-
+/**
+ * 
+ * 
+ * @export
+ * @class GenreSelection
+ * @extends {AbstractView}
+ */
 export default class GenreSelection extends AbstractView {
-
+  /**
+   * Creates an instance of GenreSelection.
+   * @param {Object} data 
+   * @memberof GenreSelection
+   */
   constructor(data) {
     super();
     this.data = data.gameData;
@@ -17,7 +27,7 @@ export default class GenreSelection extends AbstractView {
         <div class="main-wrap">
           <h2 class="title">${this.data.title}</h2>
           <form class="genre">
-                ${this.data.questions.map((it) => genreAnswer(it)).join(``)}
+                ${this.data.questions.answers.map((it) => genreAnswer(it)).join(``)}
             <button class="genre-answer-send" type="submit">Ответить</button>
           </form>
         </div>
@@ -68,7 +78,7 @@ export default class GenreSelection extends AbstractView {
 
     actionButton.onclick = (event) => {
       event.preventDefault();
-      this.onAnswer([...answersCollection].every((element) => element === this.rightAnswer.genre));
+      this.onAnswer([...answersCollection].every((element) => element === this.rightAnswer));
     };
   }
 

@@ -4,8 +4,19 @@ export const noteTypes = {
   noteActive: `icon-note-active`,
   noteWrong: `wrong-answer`
 };
-
+/**
+ * 
+ * 
+ * @export
+ * @class Mistakes
+ * @extends {AbstractView}
+ */
 export default class Mistakes extends AbstractView {
+  /**
+   * Creates an instance of Mistakes.
+   * @param {Array} data 
+   * @memberof Mistakes
+   */
   constructor(data) {
     super();
     this.lifes = data;

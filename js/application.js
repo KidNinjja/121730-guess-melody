@@ -1,61 +1,34 @@
 import WelcomeScreen from './welcome/welcome';
 import MainResultScreen from './main-result/main-result';
 import GameScreen from './game/game';
-import {gameInitialState} from "./game/game-initial-state";
+import Loader from './loader';
+import {dataAdapter} from './data/answers-data-adapter';
 
-const ControllerId = {
-  WELCOME: ``,
-  GAME: `game`,
-  SCORE: `result`
-};
-
-const saveState = (state) => {
-  return JSON.stringify(state);
-};
-
-const routes = {
-  [ControllerId.WELCOME]: WelcomeScreen,
-  [ControllerId.GAME]: GameScreen,
-  [ControllerId.SCORE]: MainResultScreen
-};
-
-const loadState = (dataString) => {
-  try {
-    return JSON.parse(dataString);
-  } catch (e) {
-    return gameInitialState;
-  }
-};
+/**
+ * 
+ * 
+ * @export
+ * @class Application
+ */
 
 export default class Application {
-  static init() {
-    const hashChangeHandler = () => {
-      const hashValue = location.hash.replace(`#`, ``);
-      const [id, data] = hashValue.split(`?`);
-      this.changeHash(id, data);
-    };
-    window.onhashchange = hashChangeHandler;
-    hashChangeHandler();
-  }
-
-  static changeHash(id, data) {
-    const controller = routes[id];
-    if (controller) {
-      controller.init(loadState(data));
-    }
+  static init(answersData) {
+    this.data = answersData;
   }
 
   static showWelcome() {
-    location.hash = ControllerId.WELCOME;
+    WelcomeScreen.init();
   }
 
   static showGame() {
-    location.hash = `${ControllerId.GAME}`;
+    GameScreen.init(this.data);
   }
 
-  static showMainResultScreen(state) {
-    location.hash = `${ControllerId.SCORE}?${saveState(state)}`;
+  static showMainResultScreen(data) {
+    MainResultScreen.init(data);
   }
 }
 
-Application.init();
+Loader.loadData().
+    then(dataAdapter).
+    then((answersData) => Application.init(answersData));

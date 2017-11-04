@@ -1,7 +1,17 @@
 import {decisionPlayerResult} from '../data/game-data';
 import calculateUserGameResult from '../data/game-data';
-
+/**
+ * 
+ * 
+ * @export
+ * @class MainResultModel
+ */
 export default class MainResultModel {
+  /**
+   * Creates an instance of MainResultModel.
+   * @param {Object} data 
+   * @memberof MainResultModel
+   */
   constructor(data) {
     this.data = data;
     this.userScore = calculateUserGameResult(this.data);

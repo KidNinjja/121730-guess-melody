@@ -9,8 +9,19 @@ const updateMarkup = (container, view) => {
   container.innerHTML = ``;
   container.appendChild(view.element);
 };
-
+/**
+ * 
+ * 
+ * @export
+ * @class GameView
+ * @extends {AbstractView}
+ */
 export default class GameView extends AbstractView {
+  /**
+   * Creates an instance of GameView.
+   * @param {Array} gameModel 
+   * @memberof GameView
+   */
   constructor(gameModel) {
     super();
     this.model = gameModel;

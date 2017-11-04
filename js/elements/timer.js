@@ -1,6 +1,18 @@
 import AbstractView from "../view";
-
+/**
+ * 
+ * 
+ * @export
+ * @class Timer
+ * @extends {AbstractView}
+ */
 export default class Timer extends AbstractView {
+  /**
+   * Creates an instance of Timer.
+   * @param {Array} data 
+   * @param {Object} circleData 
+   * @memberof Timer
+   */
   constructor(data, circleData) {
     super();
     this.data = data;

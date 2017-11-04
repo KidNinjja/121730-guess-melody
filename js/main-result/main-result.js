@@ -2,9 +2,18 @@ import {changeView} from '../render';
 import MainResult from './main-result-view';
 import MainResultModel from './main-result-model';
 import App from '../application';
-
+/**
+ * 
+ * 
+ * @class MainResultScreen
+ */
 class MainResultScreen {
-
+  /**
+   * 
+   * 
+   * @param {Object} data 
+   * @memberof MainResultScreen
+   */
   init(data) {
     this.model = new MainResultModel(data);
     this.view = new MainResult(this.model);
