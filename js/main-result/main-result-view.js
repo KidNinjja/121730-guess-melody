@@ -3,6 +3,7 @@ import App from '../application';
 import {convertNumberToString, stringExampleMinutes, stringExampleSeconds, stringExampleScores, stringExampleFastAnswers, stringExampleFails} from '../data/game-data';
 import {getTimeArrayFromSeconds} from '../utils';
 import {gameResultTitle} from './main-result-data';
+import Loader from '../loader';
 /**
  * 
  * 
@@ -55,10 +56,15 @@ export default class MainResult extends AbstractView {
 
   bind() {
     const actionButton = this.element.querySelector(`.main-replay`);
+
     actionButton.onclick = (event) => {
       event.preventDefault();
       App.showWelcome();
     };
+
+    if (this.data.fails > 0 || this.data.spentTime > 0) {
+      Loader.saveResults(this.data.userScore);
+    }
   }
 
   onStart() {}

@@ -70,8 +70,12 @@ export default class GenreSelection extends AbstractView {
           answersCollection.add(event.target.previousElementSibling.value);
           actionButton.disabled = false;
         } else {
-          actionButton.disabled = true;
           answersCollection.delete(event.target.previousElementSibling.value);
+          if (answersCollection.size < 1) {
+            actionButton.disabled = true;
+          } else {
+            actionButton.disabled = false;
+          }
         }
       };
     }

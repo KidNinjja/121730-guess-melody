@@ -28,7 +28,7 @@ export default class ArtistSelection extends AbstractView {
       <section class="main main--level main--level-artist">
         <div class="main-wrap">
           <h2 class="title main-title">${this.data.title}</h2>
-          ${musicPlayer(this.rightAnswer.src)}
+          ${musicPlayer(this.data.questions.src)}
           <form class="main-list">
             ${this.data.questions.answers.map((it) => artistAnswer(it)).join(``)}
           </form>
