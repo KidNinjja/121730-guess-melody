@@ -24,7 +24,6 @@ const calculateUserGameResult = (gameUserData) => {
 export default calculateUserGameResult;
 
 export const decisionPlayerResult = (userData, playersResult) => {
-  console.log(playersResult)
   if (userData.time <= 0) {
     return `Время вышло!</br>Вы не успели отгадать все мелодии`;
   } else if (userData.notes <= 0) {
