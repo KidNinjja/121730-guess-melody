@@ -12,29 +12,29 @@ class MainResultScreen {
   /**
    * 
    * 
-   * @param {Object} data 
+   * @param {Object} userAnswersData 
    * @memberof MainResultScreen
    */
-  init(data) {
-    this.model = new MainResultModel(data);
+  init(userAnswersData) {
+    this.model = new MainResultModel(userAnswersData);
+    this._rerenderView();
+    this._loadData();
+  }
+
+  _rerenderView() {
     this.view = new MainResult(this.model);
     changeView(this.view);
-    this.loadData();
 
     this.view.onStart = () => {
       App.showWelcome();
     };
   }
 
-  loadData() {
+  _loadData() {
     Loader.getStatistics().
         then((result) => {
-          this.model.updateResult(result.map((it) => it.score));
-          this.view = new MainResult(this.model);
-          changeView(this.view);
-          this.view.onStart = () => {
-            App.showWelcome();
-          };
+          this.model.updateResult(result.map((reslutField) => reslutField.score));
+          this._rerenderView();
         });
   }
 }

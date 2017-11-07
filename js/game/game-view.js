@@ -50,7 +50,7 @@ export default class GameView extends AbstractView {
   }
 
   updateMistakes() {
-    updateMarkup(this.mistakes, new Mistakes(this.model.lifes));
+    updateMarkup(this.mistakes, new Mistakes(this.model.lives));
   }
 
   updateArtistScreen() {
@@ -62,7 +62,7 @@ export default class GameView extends AbstractView {
     updateMarkup(this.gameScreen, view);
   }
 
-  updateGenreScren() {
+  updateGenreScreen() {
     const view = new GenreSelection({
       gameData: this.model.question,
       rightAnswer: this.model.rightAnswer,
@@ -75,7 +75,7 @@ export default class GameView extends AbstractView {
     if (this.model.currentScreen === `artistSelection`) {
       this.updateArtistScreen();
     } else {
-      this.updateGenreScren();
+      this.updateGenreScreen();
     }
   }
 }

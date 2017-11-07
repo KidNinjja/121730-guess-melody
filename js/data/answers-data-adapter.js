@@ -8,6 +8,11 @@ let collectionExample = {
   }
 };
 
+const TYPE_SCREEN = {
+  ARTIST: `artist`,
+  GENRE: `genre`
+};
+
 const preprocessArtistAnswers = (data) => {
   for (const {answers, question, src} of data) {
     const exampleObject = {};
@@ -35,7 +40,7 @@ let collection = [];
 const getArtistQuestions = (data, cb) => {
   collection = [];
   for (const it of data) {
-    if (it.type === `artist`) {
+    if (it.type === TYPE_SCREEN.ARTIST) {
       collection.push(it);
     }
   }
@@ -45,7 +50,7 @@ const getArtistQuestions = (data, cb) => {
 const getGenreQuestions = (data, cb) => {
   collection = [];
   for (const it of data) {
-    if (it.type === `genre`) {
+    if (it.type === TYPE_SCREEN.GENRE) {
       collection.push(it);
     }
   }

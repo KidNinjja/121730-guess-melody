@@ -13,11 +13,11 @@ export default class GenreSelection extends AbstractView {
    * @param {Object} data 
    * @memberof GenreSelection
    */
-  constructor(data) {
+  constructor(genreQuestionsData) {
     super();
-    this.data = data.gameData;
-    this.onAnswer = data.onAnswer;
-    this.rightAnswer = data.rightAnswer;
+    this.genreQuestionsData = genreQuestionsData.gameData;
+    this.onAnswer = genreQuestionsData.onAnswer;
+    this.rightAnswer = genreQuestionsData.rightAnswer;
   }
 
   get template() {
@@ -25,9 +25,9 @@ export default class GenreSelection extends AbstractView {
       <!-- Игра на выбор жанра -->
       <section class="main main--level main--level-genre">
         <div class="main-wrap">
-          <h2 class="title">${this.data.title}</h2>
+          <h2 class="title">${this.genreQuestionsData.title}</h2>
           <form class="genre">
-                ${this.data.questions.answers.map((it) => genreAnswer(it)).join(``)}
+                ${this.genreQuestionsData.questions.answers.map((answer) => genreAnswer(answer)).join(``)}
             <button class="genre-answer-send" type="submit">Ответить</button>
           </form>
         </div>
@@ -44,33 +44,38 @@ export default class GenreSelection extends AbstractView {
 
     actionButton.disabled = true;
 
-    for (const it of playerActionButtons) {
-      it.onclick = (event) => {
+    for (const playerActionButton of playerActionButtons) {
+      playerActionButton.onclick = (event) => {
         event.preventDefault();
+
+        const targetPreviousElement = event.target.previousElementSibling;
 
         event.target.classList.toggle(`player-control--pause`);
 
-        if (event.target.previousElementSibling.paused) {
-          for (const q of audioElements) {
-            if (!q.paused) {
-              q.nextElementSibling.classList.toggle(`player-control--pause`);
-              q.pause();
+        if (targetPreviousElement.paused) {
+          for (const audioElement of audioElements) {
+            if (!audioElement.paused) {
+              audioElement.nextElementSibling.classList.toggle(`player-control--pause`);
+              audioElement.pause();
             }
           }
-          event.target.previousElementSibling.play();
+          targetPreviousElement.play();
         } else {
-          event.target.previousElementSibling.pause();
+          targetPreviousElement.pause();
         }
       };
     }
 
-    for (const q of answerActionButtons) {
-      q.onclick = (event) => {
-        if (!event.target.previousElementSibling.checked) {
-          answersCollection.add(event.target.previousElementSibling.value);
+    for (const answerActionButton of answerActionButtons) {
+      answerActionButton.onclick = (event) => {
+
+        const targetPreviousElement = event.target.previousElementSibling;
+
+        if (!targetPreviousElement.checked) {
+          answersCollection.add(targetPreviousElement.value);
           actionButton.disabled = false;
         } else {
-          answersCollection.delete(event.target.previousElementSibling.value);
+          answersCollection.delete(targetPreviousElement.value);
           if (answersCollection.size < 1) {
             actionButton.disabled = true;
           } else {
@@ -82,7 +87,7 @@ export default class GenreSelection extends AbstractView {
 
     actionButton.onclick = (event) => {
       event.preventDefault();
-      this.onAnswer([...answersCollection].every((element) => element === this.rightAnswer));
+      this.onAnswer([...answersCollection].every((answersCollectionElement) => answersCollectionElement === this.rightAnswer));
     };
   }
 

@@ -2,7 +2,7 @@ import AbstractView from '../view';
 import App from '../application';
 import {convertNumberToString, stringExampleMinutes, stringExampleSeconds, stringExampleScores, stringExampleFastAnswers, stringExampleFails} from '../data/game-data';
 import {getTimeArrayFromSeconds} from '../utils';
-import {gameResultTitle} from './main-result-data';
+import {GameResultTitle} from './main-result-data';
 import Loader from '../loader';
 /**
  * 
@@ -14,29 +14,28 @@ import Loader from '../loader';
 export default class MainResult extends AbstractView {
   /**
    * Creates an instance of MainResult.
-   * @param {Object} data 
+   * @param {Object} userAnswersData 
    * @memberof MainResult
    */
-  constructor(data) {
+  constructor(userAnswersData) {
     super();
-    this.data = data;
-    this.minutes = getTimeArrayFromSeconds(this.data.spentTime)[0];
-    this.seconds = getTimeArrayFromSeconds(this.data.spentTime)[1];
+    this.userAnswersData = userAnswersData;
+    [this.minutes, this.seconds] = getTimeArrayFromSeconds(this.userAnswersData.spentTime);
     this.winTemplate = (`
-      <h2 class="title">${gameResultTitle.win.title}</h2>
+      <h2 class="title">${GameResultTitle.WIN}</h2>
       <div class="main-stat">
         За ${this.minutes} ${convertNumberToString(this.minutes, stringExampleMinutes)} и
         ${this.seconds} ${convertNumberToString(this.seconds, stringExampleSeconds)}
-        <br>вы набрали ${this.data.userScore} ${convertNumberToString(this.data.userScore, stringExampleScores)}
-        (${this.data.fastAnswers} ${convertNumberToString(this.data.fastAnswers, stringExampleFastAnswers)})
-        <br>совершив ${this.data.fails} ${convertNumberToString(this.data.fails, stringExampleFails)}
+        <br>вы набрали ${this.userAnswersData.userScore} ${convertNumberToString(this.userAnswersData.userScore, stringExampleScores)}
+        (${this.userAnswersData.fastAnswers} ${convertNumberToString(this.userAnswersData.fastAnswers, stringExampleFastAnswers)})
+        <br>совершив ${this.userAnswersData.fails} ${convertNumberToString(this.userAnswersData.fails, stringExampleFails)}
       </div>
-      <span class="main-comparison">${this.data.result}</span>
+      <span class="main-comparison">${this.userAnswersData.result}</span>
     `);
     this.loseTemplate = (`
-    <h2 class="title">${this.data.fails === 3 ? gameResultTitle.gameOver.title : gameResultTitle.timeLeft.title}</h2>
+    <h2 class="title">${this.userAnswersData.fails === 3 ? GameResultTitle.GAME_OVER : GameResultTitle.TIME_LEFT}</h2>
       <div class="main-stat">
-        <span class="main-comparison">${this.data.result}</span></br>
+        <span class="main-comparison">${this.userAnswersData.result}</span></br>
       </div>
     `);
   }
@@ -48,7 +47,7 @@ export default class MainResult extends AbstractView {
         <section class="logo" title="Угадай мелодию">
           <h1>Угадай мелодию</h1>
         </section>
-        ${this.data.fails === 3 || this.data.spentTime <= 0 ? this.loseTemplate : this.winTemplate }
+        ${this.userAnswersData.fails === 3 || this.userAnswersData.spentTime <= 0 ? this.loseTemplate : this.winTemplate }
         <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
       </section>
     `);
@@ -62,8 +61,8 @@ export default class MainResult extends AbstractView {
       App.showWelcome();
     };
 
-    if (this.data.fails > 0 || this.data.spentTime > 0) {
-      Loader.saveResults({score: this.data.userScore});
+    if (this.userAnswersData.fails > 0 || this.userAnswersData.spentTime > 0) {
+      Loader.saveResults({score: this.userAnswersData.userScore});
     }
   }
 

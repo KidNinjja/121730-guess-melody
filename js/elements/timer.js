@@ -13,9 +13,9 @@ export default class Timer extends AbstractView {
    * @param {Object} circleData 
    * @memberof Timer
    */
-  constructor(data, circleData) {
+  constructor(timeData, circleData) {
     super();
-    this.data = data;
+    this.timeData = timeData;
     this.circleData = circleData;
   }
 
@@ -31,11 +31,11 @@ export default class Timer extends AbstractView {
             style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center">
           </circle>
         </svg>
-        <div class="timer-value ${+this.data[0] === 0 && +this.data[1] < 30 ? `timer-value--finished` : ``}"
+        <div class="timer-value ${+this.timeData[0] === 0 && +this.timeData[1] < 30 ? `timer-value--finished` : ``}"
             xmlns="http://www.w3.org/1999/xhtml">
-            <span class="timer-value-mins">${this.data[0]}</span><!--
+            <span class="timer-value-mins">${this.timeData[0]}</span><!--
             --><span class="timer-value-dots">:</span><!--
-            --><span class="timer-value-secs">${this.data[1]}</span>
+            --><span class="timer-value-secs">${this.timeData[1]}</span>
         </div>
     </div>
     `);

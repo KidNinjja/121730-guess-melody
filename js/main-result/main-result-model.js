@@ -9,15 +9,15 @@ import calculateUserGameResult from '../data/game-data';
 export default class MainResultModel {
   /**
    * Creates an instance of MainResultModel.
-   * @param {Object} data 
+   * @param {Object} userAnswersData 
    * @memberof MainResultModel
    */
-  constructor(data) {
-    this.data = data;
-    this.userScore = calculateUserGameResult(this.data);
-    this.spentTime = this.calculateSpentTime(0);
-    this.fastAnswers = this.data.filter((it) => it.time < 30).length;
-    this.fails = this.data.filter((it) => !it.right).length;
+  constructor(userAnswersData) {
+    this.userAnswersData = userAnswersData;
+    this.userScore = calculateUserGameResult(this.userAnswersData);
+    this.spentTime = this._calculateSpentTime(0);
+    this.fastAnswers = this.userAnswersData.filter((fastAnswer) => fastAnswer.time < 30).length;
+    this.fails = this.userAnswersData.filter((fail) => !fail.right).length;
     this.playersResult = [];
     this.result = decisionPlayerResult({
       time: this.spentTime,
@@ -37,8 +37,8 @@ export default class MainResultModel {
     this.playersResult);
   }
 
-  calculateSpentTime(startCount) {
-    for (const it of this.data) {
+  _calculateSpentTime(startCount) {
+    for (const it of this.userAnswersData) {
       startCount += it.time;
     }
     return startCount;

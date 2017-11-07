@@ -13,7 +13,7 @@ import {dataAdapter} from './data/answers-data-adapter';
 
 export default class Application {
   static init(answersData) {
-    this.data = answersData;
+    this.answersData = answersData;
   }
 
   static showWelcome() {
@@ -21,11 +21,11 @@ export default class Application {
   }
 
   static showGame() {
-    GameScreen.init(this.data);
+    GameScreen.init(this.answersData);
   }
 
-  static showMainResultScreen(data) {
-    MainResultScreen.init(data);
+  static showMainResultScreen(answersResult) {
+    MainResultScreen.init(answersResult);
   }
 }
 

@@ -1,8 +1,13 @@
+const USER_SCORES_RULES = {
+  fastAnswerToken: 30,
+  maxScreensCount: 10
+};
+
 export const calculateUserScore = (userData) => {
   let userScore = 0;
-  if (userData.right === true) {
+  if (userData.right) {
     userScore += 1;
-    if (userData.time < 30) {
+    if (userData.time < USER_SCORES_RULES.fastAnswerToken) {
       userScore += 2;
     }
   } else {
@@ -12,7 +17,7 @@ export const calculateUserScore = (userData) => {
 };
 
 const calculateUserGameResult = (gameUserData) => {
-  if (gameUserData.length < 10) {
+  if (gameUserData.length < USER_SCORES_RULES.maxScreensCount) {
     return -1;
   }
   return gameUserData.reduce((sum, current) => {

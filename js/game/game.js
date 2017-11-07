@@ -13,41 +13,41 @@ class GameScreen {
   /**
    * 
    * 
-   * @param {Array} data 
+   * @param {Array} questionsData 
    * @memberof GameScreen
    */
-  init(data) {
-    this.model = new GameModel(data);
+  init(questionsData) {
+    this.model = new GameModel(questionsData);
     this.view = new GameView(this.model);
-    this.view.onAnswer = this.handleAnswer.bind(this);
+    this.view.onAnswer = this._handleAnswer.bind(this);
     changeView(this.view);
     this.timer = gameTimer(gameInitialState.time);
     this.model.setTime(this.timer.value);
     this.view.updateTimer();
     this.view.updateMistakes();
-    this.initTimer();
+    this._initTimer();
     this.showNextQuestion();
   }
 
-  initTimer() {
-    this.timerId = setInterval(this.updateTimer.bind(this), 1000);
+  _initTimer() {
+    this.timerId = setInterval(this._updateTimer.bind(this), 1000);
   }
 
-  updateTimer() {
+  _updateTimer() {
     if (this.timer.tick()) {
       this.model.setTime(this.timer.value);
       this.view.updateTimer();
     } else {
-      this.destroyTimer();
+      this._destroyTimer();
       this.showResultScreen();
     }
   }
 
-  destroyTimer() {
+  _destroyTimer() {
     clearInterval(this.timerId);
   }
 
-  handleAnswer(isRightAnswer) {
+  _handleAnswer(isRightAnswer) {
     this.model.addAnswer(isRightAnswer);
 
     if (!isRightAnswer) {
@@ -59,8 +59,8 @@ class GameScreen {
   }
 
   showNextQuestion() {
-    if (this.model.lifes < 1 || this.model.answers.length >= 10) {
-      this.destroyTimer();
+    if (this.model.lives < 1 || this.model.answers.length >= 10) {
+      this._destroyTimer();
       this.showResultScreen();
     }
 

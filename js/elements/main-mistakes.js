@@ -1,6 +1,6 @@
 import AbstractView from "../view";
 
-export const noteTypes = {
+export const NOTE_TYPES = {
   noteActive: `icon-note-active`,
   noteWrong: `wrong-answer`
 };
@@ -14,12 +14,12 @@ export const noteTypes = {
 export default class Mistakes extends AbstractView {
   /**
    * Creates an instance of Mistakes.
-   * @param {Array} data 
+   * @param {Object} mistakersData 
    * @memberof Mistakes
    */
-  constructor(data) {
+  constructor(mistakersData) {
     super();
-    this.lifes = data;
+    this.lives = mistakersData;
   }
 
   get template() {
@@ -28,17 +28,17 @@ export default class Mistakes extends AbstractView {
       <div>
         <img
         class="main-mistake"
-        src=img/${this.lifes > 0 ? noteTypes.noteActive : noteTypes.noteWrong}.png
+        src=img/${this.lives > 0 ? NOTE_TYPES.noteActive : NOTE_TYPES.noteWrong}.png
         width="35"
         height="49">
         <img
         class="main-mistake"
-        src=img/${this.lifes > 1 ? noteTypes.noteActive : noteTypes.noteWrong}.png
+        src=img/${this.lives > 1 ? NOTE_TYPES.noteActive : NOTE_TYPES.noteWrong}.png
         width="35"
         height="49">
         <img
         class="main-mistake"
-        src=img/${this.lifes > 2 ? noteTypes.noteActive : noteTypes.noteWrong}.png
+        src=img/${this.lives > 2 ? NOTE_TYPES.noteActive : NOTE_TYPES.noteWrong}.png
         width="35"
         height="49">
       </div>
