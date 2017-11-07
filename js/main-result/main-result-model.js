@@ -15,32 +15,18 @@ export default class MainResultModel {
   constructor(userAnswersData) {
     this.userAnswersData = userAnswersData;
     this.userScore = calculateUserGameResult(this.userAnswersData);
-    this.spentTime = this._calculateSpentTime(0);
+    this.spentTime = this.userAnswersData.reduce(((sum, {time}) => sum + time), 0);
     this.fastAnswers = this.userAnswersData.filter((fastAnswer) => fastAnswer.time < 30).length;
     this.fails = this.userAnswersData.filter((fail) => !fail.right).length;
-    this.playersResult = [];
-    this.result = decisionPlayerResult({
-      time: this.spentTime,
-      notes: 3 - this.fails,
-      scores: this.userScore,
-    },
-    this.playersResult);
+    this.updateResult([]);
   }
 
   updateResult(collection) {
-    this.playersResult = collection;
     this.result = decisionPlayerResult({
       time: this.spentTime,
       notes: 3 - this.fails,
       scores: this.userScore,
     },
-    this.playersResult);
-  }
-
-  _calculateSpentTime(startCount) {
-    for (const it of this.userAnswersData) {
-      startCount += it.time;
-    }
-    return startCount;
+    collection);
   }
 }

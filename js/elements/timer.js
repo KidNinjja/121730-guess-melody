@@ -26,18 +26,35 @@ export default class Timer extends AbstractView {
           <circle
             cx="390" cy="390" r="370"
             class="timer-line"
-            stroke-dasharray="${this.circleData.dashArrayValue}"
-            stroke-dashoffset="${this.circleData.dashOffsetValue}"
+            stroke-dasharray=""
+            stroke-dashoffset=""
             style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center">
           </circle>
         </svg>
-        <div class="timer-value ${+this.timeData[0] === 0 && +this.timeData[1] < 30 ? `timer-value--finished` : ``}"
+        <div class="timer-value"
             xmlns="http://www.w3.org/1999/xhtml">
-            <span class="timer-value-mins">${this.timeData[0]}</span><!--
+            <span class="timer-value-mins"></span><!--
             --><span class="timer-value-dots">:</span><!--
-            --><span class="timer-value-secs">${this.timeData[1]}</span>
+            --><span class="timer-value-secs"></span>
         </div>
     </div>
     `);
+  }
+
+  bind() {
+    this.timerContainer = this.element.querySelector(`.timer-value`);
+    this.secondsContainer = this.element.querySelector(`.timer-value-secs`);
+    this.minutesContainer = this.element.querySelector(`.timer-value-mins`);
+    this.circleContainer = this.element.querySelector(`circle`);
+  }
+
+  updateTime(timeArray, circleData) {
+    this.secondsContainer.innerHTML = timeArray[1];
+    this.minutesContainer.innerHTML = timeArray[0];
+    if (timeArray[0] === 0 && timeArray[1] < 30) {
+      this.timerContainer.classList.add(`timer-value--finished`);
+    }
+    this.circleContainer.setAttribute(`stroke-dasharray`, circleData.dashArrayValue);
+    this.circleContainer.setAttribute(`stroke-dashoffset`, circleData.dashOffsetValue);
   }
 }

@@ -4,26 +4,20 @@ const USER_SCORES_RULES = {
 };
 
 export const calculateUserScore = (userData) => {
-  let userScore = 0;
   if (userData.right) {
-    userScore += 1;
     if (userData.time < USER_SCORES_RULES.fastAnswerToken) {
-      userScore += 2;
+      return 2;
     }
-  } else {
-    userScore -= 1;
+    return 1;
   }
-  return userScore;
+  return -2;
 };
 
 const calculateUserGameResult = (gameUserData) => {
   if (gameUserData.length < USER_SCORES_RULES.maxScreensCount) {
     return -1;
   }
-  return gameUserData.reduce((sum, current) => {
-    sum += calculateUserScore(current);
-    return sum;
-  }, 0);
+  return gameUserData.reduce((sum, current) => sum + calculateUserScore(current), 0);
 };
 
 export default calculateUserGameResult;
@@ -33,13 +27,12 @@ export const decisionPlayerResult = (userData, playersResult) => {
     return `Время вышло!</br>Вы не успели отгадать все мелодии`;
   } else if (userData.notes <= 0) {
     return `У вас закончились все попытки.</br>Ничего, повезёт в следующий раз!`;
-  } else {
-    playersResult.push(userData.scores);
-    const playersResultLength = playersResult.length;
-    const playerPosition = (playersResult.sort((a, b) => b - a).indexOf(userData.scores)) + 1;
-    const userResult = 1 - (playerPosition / playersResult.length);
-    return `Вы заняли ${playerPosition}-ое место из ${playersResultLength} игроков. Это лучше чем у ${Math.round(userResult * 100)}% игроков.`;
   }
+  playersResult.push(userData.scores);
+  const playersResultLength = playersResult.length;
+  const playerPosition = (playersResult.sort((a, b) => b - a).indexOf(userData.scores)) + 1;
+  const userResult = 1 - (playerPosition / playersResult.length);
+  return `Вы заняли ${playerPosition}-ое место из ${playersResultLength} игроков. Это лучше чем у ${Math.round(userResult * 100)}% игроков.`;
 };
 
 export const gameTimer = (time) => {

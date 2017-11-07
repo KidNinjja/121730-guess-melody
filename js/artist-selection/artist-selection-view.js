@@ -60,8 +60,9 @@ export default class ArtistSelection extends AbstractView {
     };
 
     Array.from(actionButtons, (actionButton) => {
+      const actionButtonValue = actionButton.querySelector(`input`).value;
+      const answer = this.artistQuestionsData.questions.answers.find((questionsAnswer) => questionsAnswer.title === actionButtonValue);
       actionButton.onclick = () => {
-        const answer = this.artistQuestionsData.questions.answers.find((questionsAnswer) => questionsAnswer.title === actionButton.querySelector(`input`).value);
         this.onAnswer(answer.title === this.rightAnswer);
       };
     });

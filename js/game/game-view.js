@@ -19,12 +19,13 @@ const updateMarkup = (container, view) => {
 export default class GameView extends AbstractView {
   /**
    * Creates an instance of GameView.
-   * @param {Array} gameModel 
+   * @param {GameModel} gameModel 
    * @memberof GameView
    */
   constructor(gameModel) {
     super();
     this.model = gameModel;
+    this.timerView = new Timer();
   }
 
   get template() {
@@ -38,19 +39,21 @@ export default class GameView extends AbstractView {
   }
 
   bind() {
-    this.timer = this.element.querySelector(`.timer-container`);
-    this.mistakes = this.element.querySelector(`.main-mistakes`);
-    this.gameScreen = this.element.querySelector(`.game-container`);
+    this.timerContainer = this.element.querySelector(`.timer-container`);
+    this.mistakesContainer = this.element.querySelector(`.main-mistakes`);
+    this.gameScreenContainer = this.element.querySelector(`.game-container`);
+    updateMarkup(this.timerContainer, this.timerView);
+    this.updateTimer();
   }
 
   updateTimer() {
-    const timeString = getTimeArrayFromSeconds(this.model.time);
+    const timeArray = getTimeArrayFromSeconds(this.model.time);
     const timeLine = getTimeLineRadiusFromSeconds(this.model.time);
-    updateMarkup(this.timer, new Timer(timeString, timeLine));
+    this.timerView.updateTime(timeArray, timeLine);
   }
 
   updateMistakes() {
-    updateMarkup(this.mistakes, new Mistakes(this.model.lives));
+    updateMarkup(this.mistakesContainer, new Mistakes(this.model.lives));
   }
 
   updateArtistScreen() {
@@ -59,7 +62,7 @@ export default class GameView extends AbstractView {
       rightAnswer: this.model.rightAnswer,
       onAnswer: this.onAnswer
     });
-    updateMarkup(this.gameScreen, view);
+    updateMarkup(this.gameScreenContainer, view);
   }
 
   updateGenreScreen() {
@@ -68,7 +71,7 @@ export default class GameView extends AbstractView {
       rightAnswer: this.model.rightAnswer,
       onAnswer: this.onAnswer
     });
-    updateMarkup(this.gameScreen, view);
+    updateMarkup(this.gameScreenContainer, view);
   }
 
   updateGameScreen() {

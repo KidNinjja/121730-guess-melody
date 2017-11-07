@@ -34,6 +34,39 @@ export default class GenreSelection extends AbstractView {
       </section>
     `);
   }
+  // Переписать find
+  static playerActionButtonClickHandle(audioElements) {
+
+    const targetPreviousElement = event.target.previousElementSibling;
+
+    event.target.classList.toggle(`player-control--pause`);
+
+    if (targetPreviousElement.paused) {
+      for (const audioElement of audioElements) {
+        if (!audioElement.paused) {
+          audioElement.nextElementSibling.classList.toggle(`player-control--pause`);
+          audioElement.pause();
+        }
+      }
+      targetPreviousElement.play();
+    } else {
+      targetPreviousElement.pause();
+    }
+  }
+
+  static answerActionButtonClickHandle(previousElement, answersCollection, actionButton) {
+    if (!previousElement.checked) {
+      answersCollection.add(previousElement.value);
+      actionButton.disabled = false;
+    } else {
+      answersCollection.delete(previousElement.value);
+      if (answersCollection.size < 1) {
+        actionButton.disabled = true;
+      } else {
+        actionButton.disabled = false;
+      }
+    }
+  }
 
   bind() {
     const actionButton = this.element.querySelector(`.genre-answer-send`);
@@ -47,47 +80,23 @@ export default class GenreSelection extends AbstractView {
     for (const playerActionButton of playerActionButtons) {
       playerActionButton.onclick = (event) => {
         event.preventDefault();
-
-        const targetPreviousElement = event.target.previousElementSibling;
-
-        event.target.classList.toggle(`player-control--pause`);
-
-        if (targetPreviousElement.paused) {
-          for (const audioElement of audioElements) {
-            if (!audioElement.paused) {
-              audioElement.nextElementSibling.classList.toggle(`player-control--pause`);
-              audioElement.pause();
-            }
-          }
-          targetPreviousElement.play();
-        } else {
-          targetPreviousElement.pause();
-        }
+        GenreSelection.playerActionButtonClickHandle(audioElements);
       };
     }
 
     for (const answerActionButton of answerActionButtons) {
       answerActionButton.onclick = (event) => {
-
-        const targetPreviousElement = event.target.previousElementSibling;
-
-        if (!targetPreviousElement.checked) {
-          answersCollection.add(targetPreviousElement.value);
-          actionButton.disabled = false;
-        } else {
-          answersCollection.delete(targetPreviousElement.value);
-          if (answersCollection.size < 1) {
-            actionButton.disabled = true;
-          } else {
-            actionButton.disabled = false;
-          }
-        }
+        GenreSelection.answerActionButtonClickHandle(
+            event.target.previousElementSibling,
+            answersCollection,
+            actionButton
+        );
       };
     }
 
     actionButton.onclick = (event) => {
       event.preventDefault();
-      this.onAnswer([...answersCollection].every((answersCollectionElement) => answersCollectionElement === this.rightAnswer));
+      this.onAnswer(Array.from(answersCollection).every((answersCollectionElement) => answersCollectionElement === this.rightAnswer));
     };
   }
 

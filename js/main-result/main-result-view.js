@@ -19,21 +19,31 @@ export default class MainResult extends AbstractView {
    */
   constructor(userAnswersData) {
     super();
+
     this.userAnswersData = userAnswersData;
     [this.minutes, this.seconds] = getTimeArrayFromSeconds(this.userAnswersData.spentTime);
+
+    const minutesLabel = convertNumberToString(this.minutes, stringExampleMinutes);
+    const secondLabel = convertNumberToString(this.seconds, stringExampleSeconds);
+    const userScoreLabel = convertNumberToString(this.userAnswersData.userScore, stringExampleScores);
+    const fastAnswersLabel = convertNumberToString(this.userAnswersData.fastAnswers, stringExampleFastAnswers);
+    const scoresLabel = convertNumberToString(this.userAnswersData.fails, stringExampleFails);
+    const loseTitle = this.userAnswersData.fails === 3 ? GameResultTitle.GAME_OVER : GameResultTitle.TIME_LEFT;
+
     this.winTemplate = (`
       <h2 class="title">${GameResultTitle.WIN}</h2>
       <div class="main-stat">
-        За ${this.minutes} ${convertNumberToString(this.minutes, stringExampleMinutes)} и
-        ${this.seconds} ${convertNumberToString(this.seconds, stringExampleSeconds)}
-        <br>вы набрали ${this.userAnswersData.userScore} ${convertNumberToString(this.userAnswersData.userScore, stringExampleScores)}
-        (${this.userAnswersData.fastAnswers} ${convertNumberToString(this.userAnswersData.fastAnswers, stringExampleFastAnswers)})
-        <br>совершив ${this.userAnswersData.fails} ${convertNumberToString(this.userAnswersData.fails, stringExampleFails)}
+        За ${this.minutes} ${minutesLabel} и
+        ${this.seconds} ${secondLabel}
+        <br>вы набрали ${this.userAnswersData.userScore} ${userScoreLabel}
+        (${this.userAnswersData.fastAnswers} ${fastAnswersLabel})
+        <br>совершив ${this.userAnswersData.fails} ${scoresLabel}
       </div>
       <span class="main-comparison">${this.userAnswersData.result}</span>
     `);
+
     this.loseTemplate = (`
-    <h2 class="title">${this.userAnswersData.fails === 3 ? GameResultTitle.GAME_OVER : GameResultTitle.TIME_LEFT}</h2>
+    <h2 class="title">${loseTitle}</h2>
       <div class="main-stat">
         <span class="main-comparison">${this.userAnswersData.result}</span></br>
       </div>
@@ -41,13 +51,15 @@ export default class MainResult extends AbstractView {
   }
 
   get template() {
+    const winTitle = this.userAnswersData.fails === 3 || this.userAnswersData.spentTime <= 0 ? this.loseTemplate : this.winTemplate;
+
     return (`
       <!-- Результат игры: выигрыш -->
       <section class="main main--result">
         <section class="logo" title="Угадай мелодию">
           <h1>Угадай мелодию</h1>
         </section>
-        ${this.userAnswersData.fails === 3 || this.userAnswersData.spentTime <= 0 ? this.loseTemplate : this.winTemplate }
+        ${winTitle}
         <span role="button" tabindex="0" class="main-replay">Сыграть ещё раз</span>
       </section>
     `);
