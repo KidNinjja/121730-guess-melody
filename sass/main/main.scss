@@ -3,6 +3,7 @@
  */
 
 .main {
+  position: relative;
   align-items: center;
   box-sizing: border-box;
   display: flex;
@@ -55,5 +56,6 @@
 @import "--level/main--level";
 @import "--result/main--result";
 @import "--welcome/main--welcome";
+@import "--screen-loader/main--screen-loader";
 @import "timer";
 @import "mistake";

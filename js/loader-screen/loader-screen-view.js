@@ -4,13 +4,11 @@ export default class LoaderScreenView extends AbstractView {
 
   get template() {
     return (`
-      <div>Загрузка...</div>
+      <div class="main">
+        <div class="loader-screen">
+          <div class="loader-screen__content">Загрузка<span class="loader-screen__content--animate">...</span></div>
+        </div>
+      </div>
     `);
   }
-
-  showErrorMessage(errorMessage) {
-    this.element.textContent = errorMessage;
-  }
-
-
 }

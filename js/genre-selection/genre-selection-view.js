@@ -34,8 +34,8 @@ export default class GenreSelection extends AbstractView {
       </section>
     `);
   }
-  // Переписать find
-  static playerActionButtonClickHandle(audioElements) {
+
+  static playerActionButtonClickHandle(audioElements, event) {
 
     const targetPreviousElement = event.target.previousElementSibling;
 
@@ -80,7 +80,7 @@ export default class GenreSelection extends AbstractView {
     for (const playerActionButton of playerActionButtons) {
       playerActionButton.onclick = (event) => {
         event.preventDefault();
-        GenreSelection.playerActionButtonClickHandle(audioElements);
+        GenreSelection.playerActionButtonClickHandle(audioElements, event);
       };
     }
 

@@ -1,5 +1,11 @@
 import {gameInitialState} from "./game-initial-state";
 import {getRandomItem} from '../utils';
+
+const GAME_SCREEN_TYPE = {
+  artist: `artistSelection`,
+  genre: `genreSelection`
+};
+
 /**
  * 
  * 
@@ -33,11 +39,11 @@ export default class GameModel {
   }
 
   setRandomQuestion() {
-    this.currentScreen = Math.random() >= 1 ? `artistSelection` : `genreSelection`;
+    this.currentScreen = Math.random() >= 0.5 ? GAME_SCREEN_TYPE.genre : GAME_SCREEN_TYPE.artist;
     const localQuestionsData = this.data[this.currentScreen];
 
     const questions = getRandomItem(localQuestionsData.questions);
-    if (this.currentScreen === `artistSelection`) {
+    if (this.currentScreen === GAME_SCREEN_TYPE.artist) {
       this.rightAnswer = questions.answers.find((questionsAnswer) => questionsAnswer.isCorrect).title;
       this.question = {
         title: localQuestionsData.title

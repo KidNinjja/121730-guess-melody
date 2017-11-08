@@ -37,8 +37,9 @@ export default class Application {
 const loadAudio = (sourceSctring) => {
   return new Promise((resolve) => {
     const audio = new Audio();
-    audio.loadeddata = resolve;
+    audio.onloadeddata = resolve;
     audio.src = sourceSctring;
+    audio.load();
   });
 };
 
@@ -71,10 +72,13 @@ const loadAllSources = (questions) => {
 
 let loadedData = null;
 
-Loader.loadData().
-    then((gameData) => loadedData = gameData).
-    then((data) => loadAllSources(data)).
-    then((promiseArray) => Promise.all(promiseArray)).
-    then(() => dataAdapter(loadedData)).
-    then((answersData) => Application.showWelcome(answersData)).
-    catch((error) => window.console.log(`Не удалось загрузить${error.target}`));
+Loader.loadData()
+    .then((gameData) => {
+      loadedData = gameData;
+      return Promise.all(loadAllSources(gameData));
+    })
+    .then(() => {
+      Application.init(dataAdapter(loadedData));
+      Application.showWelcome();
+    })
+    .catch(window.console.error.target);
