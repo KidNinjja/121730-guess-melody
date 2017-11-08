@@ -1,5 +1,11 @@
 import {gameInitialState} from "./game-initial-state";
 import {getRandomItem} from '../utils';
+
+const GAME_SCREEN_TYPE = {
+  artist: `artistSelection`,
+  genre: `genreSelection`
+};
+
 /**
  * 
  * 
@@ -9,14 +15,13 @@ import {getRandomItem} from '../utils';
 export default class GameModel {
   /**
    * Creates an instance of GameModel.
-   * @param {Array} data 
+   * @param {Array} questionsData 
    * @memberof GameModel
    */
-  constructor(data) {
-    this.data = data;
-    this.lifes = gameInitialState.lifes;
+  constructor(questionsData) {
+    this.data = questionsData;
+    this.lives = gameInitialState.lives;
     this.answers = [];
-    this.currentQuestion = this.setRandomQuestion();
     this.startTime = 0;
     this.time = 0;
     this.rightAnswer = null;
@@ -25,7 +30,7 @@ export default class GameModel {
   }
 
   decLife() {
-    this.lifes -= 1;
+    this.lives -= 1;
   }
 
   addAnswer(right) {
@@ -34,14 +39,14 @@ export default class GameModel {
   }
 
   setRandomQuestion() {
-    this.currentScreen = Math.random() >= 0 ? `artistSelection` : `genreSelection`;
-    const localData = this.data[this.currentScreen];
+    this.currentScreen = Math.random() >= 0.5 ? GAME_SCREEN_TYPE.genre : GAME_SCREEN_TYPE.artist;
+    const localQuestionsData = this.data[this.currentScreen];
 
-    const questions = getRandomItem(localData.questions);
-    if (this.currentScreen === `artistSelection`) {
-      this.rightAnswer = questions.answers.map((it) => it.isCorrect ? it.title : ``).join(``);
+    const questions = getRandomItem(localQuestionsData.questions);
+    if (this.currentScreen === GAME_SCREEN_TYPE.artist) {
+      this.rightAnswer = questions.answers.find((questionsAnswer) => questionsAnswer.isCorrect).title;
       this.question = {
-        title: localData.title
+        title: localQuestionsData.title
       };
     } else {
       this.rightAnswer = questions.rightAnswer;

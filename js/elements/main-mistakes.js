@@ -1,8 +1,9 @@
 import AbstractView from "../view";
 
-export const noteTypes = {
+export const NOTE_TYPES = {
   noteActive: `icon-note-active`,
-  noteWrong: `wrong-answer`
+  noteWrong: `wrong-answer`,
+  maxNoteCount: 3
 };
 /**
  * 
@@ -14,34 +15,25 @@ export const noteTypes = {
 export default class Mistakes extends AbstractView {
   /**
    * Creates an instance of Mistakes.
-   * @param {Array} data 
+   * @param {Object} mistakersData 
    * @memberof Mistakes
    */
-  constructor(data) {
+  constructor(mistakersData) {
     super();
-    this.lifes = data;
+    this.lives = mistakersData;
   }
 
   get template() {
-    return (`
-      
-      <div>
+    const newNotesBox = new Array(NOTE_TYPES.maxNoteCount).fill(0).map((_, index) => {
+      return (`
         <img
         class="main-mistake"
-        src=img/${this.lifes > 0 ? noteTypes.noteActive : noteTypes.noteWrong}.png
+        src=img/${this.lives > index ? NOTE_TYPES.noteActive : NOTE_TYPES.noteWrong}.png
         width="35"
         height="49">
-        <img
-        class="main-mistake"
-        src=img/${this.lifes > 1 ? noteTypes.noteActive : noteTypes.noteWrong}.png
-        width="35"
-        height="49">
-        <img
-        class="main-mistake"
-        src=img/${this.lifes > 2 ? noteTypes.noteActive : noteTypes.noteWrong}.png
-        width="35"
-        height="49">
-      </div>
-    `);
+      `);
+    });
+
+    return `<div>${newNotesBox.join(``)}</div>`;
   }
 }

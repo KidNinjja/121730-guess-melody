@@ -9,13 +9,13 @@ import AbstractView from "../view";
 export default class Timer extends AbstractView {
   /**
    * Creates an instance of Timer.
-   * @param {Array} data 
-   * @param {Object} circleData 
+   * @param {Array} timeData 
+   * @param {Array} circleData 
    * @memberof Timer
    */
-  constructor(data, circleData) {
+  constructor(timeData, circleData) {
     super();
-    this.data = data;
+    this.timeData = timeData;
     this.circleData = circleData;
   }
 
@@ -26,18 +26,35 @@ export default class Timer extends AbstractView {
           <circle
             cx="390" cy="390" r="370"
             class="timer-line"
-            stroke-dasharray="${this.circleData.dashArrayValue}"
-            stroke-dashoffset="${this.circleData.dashOffsetValue}"
+            stroke-dasharray=""
+            stroke-dashoffset=""
             style="filter: url(.#blur); transform: rotate(-90deg) scaleY(-1); transform-origin: center">
           </circle>
         </svg>
-        <div class="timer-value ${+this.data[0] === 0 && +this.data[1] < 30 ? `timer-value--finished` : ``}"
+        <div class="timer-value"
             xmlns="http://www.w3.org/1999/xhtml">
-            <span class="timer-value-mins">${this.data[0]}</span><!--
+            <span class="timer-value-mins"></span><!--
             --><span class="timer-value-dots">:</span><!--
-            --><span class="timer-value-secs">${this.data[1]}</span>
+            --><span class="timer-value-secs"></span>
         </div>
     </div>
     `);
+  }
+
+  bind() {
+    this.timerContainer = this.element.querySelector(`.timer-value`);
+    this.secondsContainer = this.element.querySelector(`.timer-value-secs`);
+    this.minutesContainer = this.element.querySelector(`.timer-value-mins`);
+    this.circleContainer = this.element.querySelector(`circle`);
+  }
+
+  updateTime(timeArray, circleData) {
+    this.minutesContainer.innerHTML = timeArray[0];
+    this.secondsContainer.innerHTML = timeArray[1];
+    if (+timeArray[0] === 0 && +timeArray[1] < 30 && +timeArray[1] > 0) {
+      this.timerContainer.classList.add(`timer-value--finished`);
+    }
+    this.circleContainer.setAttribute(`stroke-dasharray`, circleData.dashArrayValue);
+    this.circleContainer.setAttribute(`stroke-dashoffset`, circleData.dashOffsetValue);
   }
 }

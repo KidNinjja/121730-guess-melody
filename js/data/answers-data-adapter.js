@@ -1,59 +1,29 @@
-let collectionExample = {
-  artistSelection: {
-    title: ``,
-    questions: []
-  },
-  genreSelection: {
-    questions: []
-  }
+const TYPE_SCREEN = {
+  ARTIST: `artist`,
+  GENRE: `genre`
 };
 
-const preprocessArtistAnswers = (data) => {
-  for (const {answers, question, src} of data) {
-    const exampleObject = {};
-    collectionExample.artistSelection.title = question;
-    exampleObject.src = src;
-    exampleObject.answers = answers;
-    collectionExample.artistSelection.questions.push(exampleObject);
-  }
-  return collectionExample;
+const preprocessGenreAnswers = (gameDataArray) => {
+  return gameDataArray.map(({question, answers, genre}) => {
+    return {title: question, answers, rightAnswer: genre};
+  });
 };
 
-const preprocessGenreAnswers = (data) => {
-  for (const {question, answers, genre} of data) {
-    const exampleObject = {};
-    exampleObject.title = question;
-    exampleObject.answers = answers;
-    exampleObject.rightAnswer = genre;
-    collectionExample.genreSelection.questions.push(exampleObject);
-  }
-  return collectionExample;
-};
-
-let collection = [];
-
-const getArtistQuestions = (data, cb) => {
-  collection = [];
-  for (const it of data) {
-    if (it.type === `artist`) {
-      collection.push(it);
-    }
-  }
-  cb(collection);
-};
-
-const getGenreQuestions = (data, cb) => {
-  collection = [];
-  for (const it of data) {
-    if (it.type === `genre`) {
-      collection.push(it);
-    }
-  }
-  cb(collection);
+const getQuestions = (data, idScreen) => {
+  return data.filter(({type}) => type === idScreen);
 };
 
 export const dataAdapter = (data) => {
-  getArtistQuestions(data, preprocessArtistAnswers);
-  getGenreQuestions(data, preprocessGenreAnswers);
-  return collectionExample;
+  const artistQuestions = getQuestions(data, TYPE_SCREEN.ARTIST);
+  const genreQuestions = preprocessGenreAnswers(getQuestions(data, TYPE_SCREEN.GENRE));
+
+  return {
+    artistSelection: {
+      title: artistQuestions[0].question,
+      questions: artistQuestions
+    },
+    genreSelection: {
+      questions: genreQuestions
+    }
+  };
 };

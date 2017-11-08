@@ -1,11 +1,5 @@
-export const gameResultTitle = {
-  win: {
-    title: `Вы настоящий меломан!`,
-  },
-  timeLeft: {
-    title: `Увы и ах!`
-  },
-  gameOver: {
-    title: `Какая жалость!`
-  }
+export const GameResultTitle = {
+  WIN: `Вы настоящий меломан!`,
+  TIME_LEFT: `Увы и ах!`,
+  GAME_OVER: `Какая жалость!`
 };

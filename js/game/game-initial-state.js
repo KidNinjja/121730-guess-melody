@@ -1,4 +1,4 @@
 export const gameInitialState = Object.freeze({
-  time: 60 * 5,
-  lifes: 3
+  time: 5 * 60,
+  lives: 3
 });

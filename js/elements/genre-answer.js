@@ -1,14 +1,12 @@
 import {musicPlayer} from "./music-player";
 
-let idValue = 0;
-
-export const genreAnswer = (data) => {
-  idValue++;
+export const genreAnswer = (genreAnswerData) => {
+  const randomInt = Math.round(Math.random() * 10000);
   return (`
     <div class="genre-answer">
-      ${musicPlayer(data.src)}
-      <input type="checkbox" name="answer" value="${data.genre}" id="a-${idValue}">
-      <label class="genre-answer-check" for="a-${idValue}"></label>
+      ${musicPlayer(genreAnswerData.src)}
+      <input type="checkbox" name="answer" value="${genreAnswerData.genre}" id="a-${randomInt}">
+      <label class="genre-answer-check" for="a-${randomInt}"></label>
     </div>
   `);
 };
