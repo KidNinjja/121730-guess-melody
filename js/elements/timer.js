@@ -9,8 +9,8 @@ import AbstractView from "../view";
 export default class Timer extends AbstractView {
   /**
    * Creates an instance of Timer.
-   * @param {Array} data 
-   * @param {Object} circleData 
+   * @param {Array} timeData 
+   * @param {Array} circleData 
    * @memberof Timer
    */
   constructor(timeData, circleData) {
@@ -49,9 +49,9 @@ export default class Timer extends AbstractView {
   }
 
   updateTime(timeArray, circleData) {
-    this.secondsContainer.innerHTML = timeArray[1];
     this.minutesContainer.innerHTML = timeArray[0];
-    if (timeArray[0] === 0 && timeArray[1] < 30) {
+    this.secondsContainer.innerHTML = timeArray[1];
+    if (+timeArray[0] === 0 && +timeArray[1] < 30 && +timeArray[1] > 0) {
       this.timerContainer.classList.add(`timer-value--finished`);
     }
     this.circleContainer.setAttribute(`stroke-dasharray`, circleData.dashArrayValue);

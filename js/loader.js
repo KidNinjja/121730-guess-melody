@@ -3,7 +3,7 @@ const SERVER_URL = `https://es.dump.academy/guess-melody/`;
 
 const DEFAULT_NAME = `121730`;
 /**
- * xw
+ *
  * 
  * @export
  * @class Loader

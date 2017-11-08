@@ -33,7 +33,7 @@ export default class GameModel {
   }
 
   setRandomQuestion() {
-    this.currentScreen = Math.random() >= 0.5 ? `artistSelection` : `genreSelection`;
+    this.currentScreen = Math.random() >= 1 ? `artistSelection` : `genreSelection`;
     const localQuestionsData = this.data[this.currentScreen];
 
     const questions = getRandomItem(localQuestionsData.questions);

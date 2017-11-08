@@ -10,7 +10,7 @@ import {genreAnswer} from "../elements/genre-answer";
 export default class GenreSelection extends AbstractView {
   /**
    * Creates an instance of GenreSelection.
-   * @param {Object} data 
+   * @param {Object} genreQuestionsData 
    * @memberof GenreSelection
    */
   constructor(genreQuestionsData) {
@@ -96,7 +96,8 @@ export default class GenreSelection extends AbstractView {
 
     actionButton.onclick = (event) => {
       event.preventDefault();
-      this.onAnswer(Array.from(answersCollection).every((answersCollectionElement) => answersCollectionElement === this.rightAnswer));
+      this.onAnswer(Array.from(answersCollection).
+          every((answersCollectionElement) => answersCollectionElement === this.rightAnswer));
     };
   }
 

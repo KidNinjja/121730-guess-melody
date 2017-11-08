@@ -116,9 +116,9 @@ const testDontRightAndSlow = {
 const anotherGamersData = [4, 5, 8, 11];
 
 describe(`calculateUserScore`, () => {
-  it(`must return 3 if the player answered correctly and quickly`, () => {
+  it(`must return 2 if the player answered correctly and quickly`, () => {
     const result = calculateUserScore(testRightAndFast);
-    assert.equal(3, result, `Количесво баллов ${result}`);
+    assert.equal(2, result, `Количесво баллов ${result}`);
   });
 
   it(`must return 1 if the player answered correctly but slowly`, () => {
@@ -138,9 +138,9 @@ describe(`calculateUserScore`, () => {
 });
 
 describe(`calculateUserGameScore`, () => {
-  it(`must return 30 if the player answered all the questions correctly and quickly`, () => {
+  it(`must return 20 if the player answered all the questions correctly and quickly`, () => {
     const result = calculateUserGameResult(testUserData);
-    assert.equal(30, result, `Количесво баллов ${result}`);
+    assert.equal(20, result, `Количесво баллов ${result}`);
   });
 
   it(`must return 10 if the player answered all the questions correctly,
